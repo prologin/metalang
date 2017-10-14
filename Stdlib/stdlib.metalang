@@ -105,6 +105,46 @@ def bool is_number(char c)
   int_of_char(c) >= int_of_char('0')
 end
 
+macro int native_macro_abs(int n)
+  ml do "abs ($n)"
+  js do "Math.abs($n)"
+  java do "Math.abs($n)"
+  vb do "Math.Abs($n)"
+  php do "abs($n)"
+  py do "abs($n)"
+  lua do "math.abs($n)"
+  hs do "(abs <$> ($n))"
+  hs_pure do "abs $n"
+  * do "abs($n)"
+end
+tag macro_native_macro_abs_pure
+
+def int abs_(int n)
+ if n > 0 then return n else return -n end
+end
+
+def lexems macro_abs(lexems n)
+  if current_language() == LANG_Java ||
+  current_language() == LANG_Js ||
+  current_language() == LANG_Php ||
+  current_language() == LANG_Vb ||
+  current_language() == LANG_Ml ||
+  current_language() == LANG_Fun_ml ||
+  current_language() == LANG_Py ||
+  current_language() == LANG_Lua ||
+  current_language() == LANG_Hs
+  then
+    return {
+    return native_macro_abs(${n}) }
+  else
+    return  { return abs_(${n}) }
+  end
+end
+
+def inline int abs(int n)
+	${ macro_abs( {n} ) }
+end
+
 macro int native_macro_max2(int a, int b)
   ml do "max ($a) ($b)"
   js do "Math.max($a, $b)"
