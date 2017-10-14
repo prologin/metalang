@@ -294,6 +294,7 @@ Elle comprend aussi les fonctions suivantes :
 * char char_of_int(int)
 * int int_of_char(char)
 * bool is_number(char)
+* int abs(int)
 * int max2(int, int)
 * int min2(int, int)
 * int min3(int, int, int)
