@@ -65,6 +65,7 @@ let keywords lang=
   ]
   in match lang with
     "pas" -> "div"::li
+  | "ada" -> "abs"::li
   | "cl" -> "isqrt" :: "t" :: "mem" :: "nth" :: "cons" :: "find" :: li
   | "rkt" -> "isqrt" :: "t" :: "mem" :: "nth" :: "cons" :: "find" :: li
   | "php" -> "sqrt" :: "log10" :: li

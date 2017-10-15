@@ -1,0 +1,18 @@
+def int abs_ (int n)
+  if n > 0
+  then
+    return n
+  else
+    return -n
+  end
+end
+
+def int abs (int n)
+  return abs_(n)
+end
+
+main
+  print int abs(5 + 2) * 3
+  print int 3 * abs(5 + 2)
+end
+

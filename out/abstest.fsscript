@@ -1,0 +1,9 @@
+let abs_ n =
+  if n > 0 then
+    n
+  else
+    (- n)
+
+let () =
+  Printf.printf "%d%d" (abs_ (5 + 2) * 3) (3 * abs_ (5 + 2))
+ 

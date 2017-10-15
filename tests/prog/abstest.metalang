@@ -1,0 +1,8 @@
+
+
+main
+
+  print abs(5 + 2) * 3
+  print 3 * abs(5 + 2)
+
+end

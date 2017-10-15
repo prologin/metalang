@@ -107,6 +107,7 @@ end
 
 macro int native_macro_abs(int n)
   ml do "abs ($n)"
+  adb do "abs $n"
   js do "Math.abs($n)"
   java do "Math.abs($n)"
   vb do "Math.Abs($n)"
@@ -132,6 +133,7 @@ def lexems macro_abs(lexems n)
   current_language() == LANG_Fun_ml ||
   current_language() == LANG_Py ||
   current_language() == LANG_Lua ||
+  current_language() == LANG_Adb ||
   current_language() == LANG_Hs
   then
     return {
