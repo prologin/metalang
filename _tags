@@ -1,5 +1,5 @@
-<src/main.byte>: use_str, use_unix
-<src/main.native>: use_str, use_unix
+<src/main.byte>: use_unix
+<src/main.native>: use_unix
 
 true: annot, bin_annot
 true : use_menhir

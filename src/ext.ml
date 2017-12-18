@@ -260,9 +260,8 @@ module String = struct
   let from_char c = make 1 c
   let of_string (s:string) = (s:t)
   let equals a b = 0 = compare a b
-  let lines = Str.split $ Str.regexp "\n+"
+  let lines = String.split_on_char '\n'
   let unlines = String.concat "\n"
-  let words = Str.split $ Str.regexp "[ \t]+"
   let unwords = String.concat " "
 
   let match_from s s' from =
@@ -338,15 +337,29 @@ module String = struct
         else add (escape c)) false s ;
     Buffer.contents buf
 
-  let replace a b c =
-    let b = Str.global_replace (Str.regexp_string "\\") "\\\\\\\\" b in
-    (*    Format.printf "replace %S %S %S\n%!" a b c; *)
-    Str.global_replace (Str.regexp_string a) b c
-
   let chararray s =
     let len = length s in
     Array.init len (String.get s)
 
+  let charlist s = Array.to_list (chararray s)
+  
+  let replace b c a =
+    let a, b, c = charlist a, charlist b, charlist c in
+    let rec begin_with a b = match a, b with
+      | hd1::tl1, hd2::tl2 ->
+        if hd1 = hd2 then begin_with tl1 tl2
+        else None
+      | tail, [] ->  Some tail
+      | [], _ -> None
+    in
+    let rec replace acc a =
+      match begin_with a b with
+      | Some tail -> replace (List.rev_append c acc) tail
+      | None -> match a with
+        | hd::tail -> replace (hd::acc) tail
+        | [] -> List.rev acc
+    in let tab = replace [] a |> Array.of_list in
+    String.init (Array.length tab) (fun i -> tab.(i))
 end
 
 (** {2 Collections} *)
