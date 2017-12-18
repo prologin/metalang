@@ -193,7 +193,6 @@ let error_cty t1 t2 loc1 loc2 =
                    Ast.Location.pp loc2))
 
 (** {2 Types anti alias-ing}*)
-(* TODO passer loc en premier ou second parametre*)
 let expand env ty loc =
   let rec f ty =
     match Type.Fixed.unfix ty with
