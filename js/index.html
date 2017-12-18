@@ -1,168 +1,925 @@
 <html>
-<head>
-  <title>métalang</title>
-  <script language="javascript" src="global.js"></script>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <link rel="stylesheet" href="CodeMirror-2.33/theme/elegant.css">
-  <link rel="stylesheet" href="global.css" />
-  <link rel="stylesheet" href="metalang_html.css" />
-  <script src="CodeMirror-2.33/lib/codemirror.js"></script>
-  <link rel="stylesheet" href="CodeMirror-2.33/lib/codemirror.css" />
-  <script src="syntax-metalang.js"></script>
-  <script src="CodeMirror-2.33/mode/ocaml/ocaml.js"></script>
-  <script src="meta.js"></script>
-</head>
-<body>
+  <head>
+    <title>métalang</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="CodeMirror-2.33/theme/elegant.css">
+    <link rel="stylesheet" href="CodeMirror-2.33/theme/cobalt.css">
+    <link rel="stylesheet" href="CodeMirror-2.33/theme/blackboard.css">
+    <script language="javascript" src="meta.js"></script>
+    <script src="CodeMirror-2.33/lib/codemirror.js"></script>
+    <script src="CodeMirror-2.33/mode/clike/clike.js"></script>
+    <script src="CodeMirror-2.33/mode/ocaml/ocaml.js"></script>
+    <script src="CodeMirror-2.33/mode/pascal/pascal.js"></script>
+    <script src="CodeMirror-2.33/mode/php/php.js"></script>
+    <script src="CodeMirror-2.33/mode/python/python.js"></script>
+    <script src="CodeMirror-2.33/mode/ruby/ruby.js"></script>
 
-<h1>Métalang</h1>
-<div id="left">
-<ul>
-<li><a href="index.html">Home</a></li>
-<li><a href="tarball.tar.gz">Sources.tar.gz</a></li>
-<li><a href="site.html">Exemples</a></li>
-<li><a href="doc.html">Documentation</a></li>
-<li><a href="demo.html">Démonstration</a></li>
-<li><a href="http://www.prologin.org">Prologin</a></li>
-<li><a href="../">Blog du projet</a></li>
-</ul>
-</div>
-<div id="right">
-<h2>Le langage Métalang</h2>
-<p>Le langage Métalang a pour but de pouvoir écrire un algorithme dans un seul langage et de pouvoir ensuite l'utiliser dans une dizaine d'autres.</p>
-<p>Ce projet a vu le jour pour pouvoir écrire les références et les codes a compléter pour le concours prologin : on écrit une solution a un exercice d'algo, et on obtient ensuite les références dans les différents langages du concours. Ces références servent ensuite a déterminer le temps et la mémoire que prendra l'algorithme a s'executer.</p>
-<p>Une des contrainte du compilateur est de générer une sortie lisible par un humain : les organisateurs du concours prologin se servent de metalang pour générer des codes à compléter qui sont livrés aux candidats, il est donc évident que la clareté du code est un paramètre important.</p>
-<div class="editor">
-<h3>Un hello world</h3>
-<textarea id="exemple0">
-main
-  print "Hello world\n"
-end</textarea>
-</div>
-<p>Ce langage est statiquement typé, avec de l'inférence et sans polymorphisme. Le code produit (code C, ocaml, php, etc...) devrait-être lisible par un humain (même si parfois ce code n'est pas de toute beauté.) </p>
+    <script language="javascript" src="syntax-metalang.js"></script>
+    <link rel="stylesheet" href="CodeMirror-2.33/lib/codemirror.css">
 
+    <style type="text/css">
 
-<table>
-<tr>
-<td>
-<div class="editor">
-<h3>Sort</h3>
-<textarea id="exemple1">
-def void sort_(array<int> tab, int len)
-	for i = 0 to len -1 do
-	  for j = i + 1 to len - 1 do
-			if tab[i] > tab[j] then
-				def int tmp = tab[i]
-				tab[i] = tab[j]
-				tab[j] = tmp
-			end
-	  end
+      body {
+font-family: monospace;
+
+      margin-left:20%; margin-right:20%; background: #777; color: #FFF;
+      }
+#main { background: #333; }
+textarea { background-color: #222;; color: #FFF;}
+h1 {text-align: center; border-bottom:1px solid #FFF; font-size: 2.5em;}
+#left {
+  width: 50%;
+  float: left;
+  height: 50%;
+  overflow:auto;
+}
+#right {
+  margin-left: 50%;
+  width: 50%;
+  height: 50%;
+  overflow:auto;
+}
+
+#footer2 {
+  padding-right : 1em;
+  text-align:center;
+}
+
+a{
+  color: #7AF;
+  font-size: 1.2em;
+}
+h2 { font-size: 1.3em; padding-right: 1em;padding-left: 1em;}
+h1, h2 {
+  font-weight: normal;
+}
+#footer1_left { width : 50%; float:left; overflow:auto;}
+#stdout_box { margin-left: 50%;  overflow:auto; }
+input, select { font-size: 1.5em; padding-left: 1em;}
+.CodeMirror-scroll {
+  height: auto;
+    overflow-y: hidden;
+      overflow-x: auto;
+      }
+.CodeMirror-lines { padding-left: 0em }
+#stderr { color:#ff1111;}
+ul {
+list-style-type : none;
+}
+
+    </style>
+  </head>
+  <body>
+    <textarea id="stdlib" style="display:none">
+macro int random(int c)
+  ml do "(Random.int ($c))"
+  js do "(Math.floor(Math.random() * ($c)))"
+  php do "mt_rand(0, $c - 1)"
+  *  do "$c"
+end
+
+macro int sqrt_(int c)
+  ml do "(int_of_float (sqrt (float_of_int ( $c))))"
+  js do "Math.floor(Math.sqrt($c))"
+  csharp do "(int)Math.Sqrt($c)"
+  fsharp do "(int (sqrt (float ($c))))"
+  py do "math.floor(math.sqrt($c))"
+  ruby do "Math.sqrt($c).to_i"
+  pas do "Floor(Sqrt($c))"
+  java do "(int)Math.sqrt($c)"
+  groovy do "(int)Math.sqrt($c)"
+  clisp do "(isqrt $c)"
+  go do "int(math.Sqrt(float64($c)))"
+  php do "intval(sqrt($c))"
+  rkt do "integer-sqrt $c"
+  pl do "int(sqrt($c))"
+  c do "(int)sqrt($c)"
+  cpp do "(int)sqrt($c)"
+  objc do "(int)sqrt($c)"
+  ada do "Integer(Float'Truncation(Ada.Numerics.Elementary_Functions.Sqrt(Float($c))))"
+  vb do "Int(Math.Sqrt($c))"
+  hs do "fmap (floor . sqrt . fromIntegral) ($c)"
+  hs_pure do "(floor . sqrt . fromIntegral) $c"
+  lua do "math.floor(math.sqrt($c))"
+  scala do "math.sqrt($c).toInt"
+  st do "(($c) sqrt floor)"
+  fs do "$c s>f fsqrt f>s"
+  * do "sqrt($c)"
+end
+
+tag macro_sqrt__pure
+
+def inline int isqrt(int c)
+  tag use_math
+  return sqrt_(c)
+end
+
+macro char char_of_int(int c)
+  ml do "char_of_int ($c)"
+  pas do "chr($c)"
+  java do "(char)($c)"
+  groovy do "(char)($c)"
+  js do "String.fromCharCode($c)"
+  csharp do "(char)($c)"
+  php do "chr($c)"
+  go do "(byte)($c)"
+  clisp do "(code-char $c)"
+  cpp do "(char)($c)"
+  rkt do "integer->char $c"
+  pl do "chr($c)"
+  c do "(char)($c)"
+  cpp do "(char)($c)"
+  objc do "(char)($c)"
+  ada do "Character'Val($c)"
+  vb do "Chr($c)"
+  hs do "fmap chr ($c)"
+  hs_pure do "chr $c"
+  scala do "($c).toChar"
+  lua  do "$c"
+  ruby do "($c).chr"
+  st do "(($c) asCharacter)"
+  fsharp do "char ($c)"
+  *  do "$c"
+end
+tag macro_char_of_int_pure
+
+macro int int_of_char(char c)
+  ml do "int_of_char ($c)"
+  py do "ord($c)"
+  clisp do "(char-code $c)"
+  ruby do "$c.ord"
+  pas do "ord($c)"
+  php do "ord($c)"
+  go do "(int)($c)"
+  js do "$c.charCodeAt(0)"
+  rkt do "char->integer $c"
+  pl do "ord($c)"
+  c do "(int)($c)"
+  cpp do "(int)($c)"
+  objc do "(int)($c)"
+  ada do "Character'Pos($c)"
+  vb do "Asc($c)"
+  hs do "fmap ord ($c)"
+  hs_pure do "ord $c"
+  scala do "($c).toInt"
+  lua  do "$c"
+  st do "(($c) asciiValue)"
+  java do "(int)($c)"
+  csharp do "(int)($c)"
+  groovy do "(0+$c)"
+  fsharp do "int ($c)"
+  *  do "$c"
+end
+tag macro_int_of_char_pure
+
+def bool is_number(char c)
+	return int_of_char(c) <= int_of_char('9') &&
+  int_of_char(c) >= int_of_char('0')
+end
+
+macro int native_macro_abs(int n)
+  ml do "abs ($n)"
+  adb do "abs $n"
+  js do "Math.abs($n)"
+  java do "Math.abs($n)"
+  vb do "Math.Abs($n)"
+  php do "abs($n)"
+  py do "abs($n)"
+  lua do "math.abs($n)"
+  hs do "(abs <$> ($n))"
+  hs_pure do "abs $n"
+  * do "abs($n)"
+end
+tag macro_native_macro_abs_pure
+
+def int abs_(int n)
+ if n > 0 then return n else return -n end
+end
+
+def lexems macro_abs(lexems n)
+  if current_language() == LANG_Java ||
+  current_language() == LANG_Js ||
+  current_language() == LANG_Php ||
+  current_language() == LANG_Vb ||
+  current_language() == LANG_Ml ||
+  current_language() == LANG_Fun_ml ||
+  current_language() == LANG_Py ||
+  current_language() == LANG_Lua ||
+  current_language() == LANG_Adb ||
+  current_language() == LANG_Hs
+  then
+    return {
+    return native_macro_abs(${n}) }
+  else
+    return  { return abs_(${n}) }
+  end
+end
+
+def inline int abs(int n)
+	${ macro_abs( {n} ) }
+end
+
+macro int native_macro_max2(int a, int b)
+  ml do "max ($a) ($b)"
+  js do "Math.max($a, $b)"
+  java do "Math.max($a, $b)"
+  groovy do "Math.max($a, $b)"
+  csharp do "Math.Max($a, $b)"
+  vb do "Math.Max($a, $b)"
+  php do "max($a, $b)"
+  py do "max($a, $b)"
+  pl do "max($a, $b)"
+  rkt do "max $a $b"
+  clisp do "(max $a $b)"
+  ruby do "[$a, $b].max"
+  lua do "math.max($a, $b)"
+  pas do "Max($a, $b)"
+  hs do "(max <$> ($a) <*> ($b))"
+  hs_pure do "max $a $b"
+  fs do "$a $b max"
+  st do "(($a) max: ($b))"
+  cpp do "std::max($a, $b)"
+  * do "max($a, $b)"
+end
+tag macro_native_macro_max2_pure
+
+def int max2_(int a, int b)
+ if a > b then return a else return b end
+end
+
+def lexems macro_max2(lexems a, lexems b)
+  if current_language() == LANG_Java ||
+  current_language() == LANG_Groovy ||
+  current_language() == LANG_Js ||
+  current_language() == LANG_Php ||
+  current_language() == LANG_Cs ||
+  current_language() == LANG_Cc ||
+  current_language() == LANG_Cpp ||
+  current_language() == LANG_Vb ||
+  current_language() == LANG_Rkt ||
+  current_language() == LANG_Ml ||
+  current_language() == LANG_Fun_ml ||
+  current_language() == LANG_Py ||
+  current_language() == LANG_Pl ||
+  current_language() == LANG_Lua ||
+  current_language() == LANG_Pas ||
+  current_language() == LANG_Hs ||
+  current_language() == LANG_Rb ||
+  current_language() == LANG_St ||
+  current_language() == LANG_Fs
+  then
+    return { 
+    tag use_cpp_algorithm
+    tag use_pascal_math
+    tag perl_use_list_min
+    return native_macro_max2( ${a}, ${b}) }
+  else
+    return  { return max2_(${a}, ${b}) }
+  end
+end
+
+def inline int max2(int a, int b)
+	${ macro_max2( {a}, {b} ) }
+end
+
+macro int native_macro_min2(int a, int b)
+  ml do "min ($a) ($b)"
+  js do "Math.min($a, $b)"
+  java do "Math.min($a, $b)"
+  groovy do "Math.min($a, $b)"
+  csharp do "Math.Min($a, $b)"
+  vb do  "Math.Min($a, $b)"
+  php do "min($a, $b)"
+  py do "min($a, $b)"
+  rkt do "min $a $b"
+  clisp do "(min $a $b)"
+  ruby do "[$a, $b].min"
+  pl do "min($a, $b)"
+  lua do "math.min($a, $b)"
+  pas do "Min($a, $b)"
+  hs do "(min <$> ($a) <*> ($b))"
+  hs_pure do "min $a $b"
+  fs do "$a $b min"
+  st do "(($a) min: ($b))"
+  cpp do "std::min($a, $b)"
+  * do "min($a, $b)"
+end
+
+tag macro_native_macro_min2_pure
+
+macro int native_macro_min3(int a, int b, int c)
+  js do "Math.min($a, $b, $c)"
+  php do "min($a, $b, $c)"
+  py do "min($a, $b, $c)"
+  rkt do "min $a $b $c"
+  clisp do "(min $a $b $c)"
+  ruby do "[$a, $b, $c].min"
+  pl do "min($a, $b, $c)"
+  lua do "math.min($a, $b, $c)"
+  cpp do "std::min({$a, $b, $c})"
+  * do "min($a, $b, $c)"
+end
+
+macro int native_macro_min4(int a, int b, int c, int d)
+  js do "Math.min($a, $b, $c, $d)"
+  php do "min($a, $b, $c, $d)"
+  py do "min($a, $b, $c, $d)"
+  rkt do "min $a $b $c $d"
+  clisp do "(min $a $b $c $d)"
+  ruby do "[$a, $b, $c, $d].min"
+  pl do "min($a, $b, $c, $d)"
+  lua do "math.min($a, $b, $c, $d)"
+  cpp do "std::min({$a, $b, $c, $d})"
+  * do "min($a, $b, $c, $d)"
+end
+
+def int min2_(int a, int b)
+  if a < b then return a else return b end 
+end
+
+def lexems macro_min2(lexems a, lexems b)
+  if current_language() == LANG_Java ||
+  current_language() == LANG_Groovy ||
+  current_language() == LANG_Js ||
+  current_language() == LANG_Php ||
+  current_language() == LANG_Cs ||
+  current_language() == LANG_Cc ||
+  current_language() == LANG_Cpp ||
+  current_language() == LANG_Vb ||
+  current_language() == LANG_Ml ||
+  current_language() == LANG_Fun_ml ||
+  current_language() == LANG_Py ||
+  current_language() == LANG_Rkt ||
+  current_language() == LANG_Cl ||
+  current_language() == LANG_Rb ||
+  current_language() == LANG_Fs ||
+  current_language() == LANG_Vb ||
+  current_language() == LANG_Pl ||
+  current_language() == LANG_Pas ||
+  current_language() == LANG_Lua ||
+  current_language() == LANG_St ||
+  current_language() == LANG_Hs
+  then
+    return {
+    tag use_cpp_algorithm
+    tag use_pascal_math
+    tag perl_use_list_min
+    return native_macro_min2( ${a}, ${b}) }
+  else
+    return  { return min2_(${a}, ${b})}
+  end
+end
+
+def inline int min2(int a, int b)
+	${ macro_min2( {a}, {b} ) }
+end
+
+def lexems macro_min3(lexems a, lexems b, lexems c)
+  if current_language() == LANG_Js ||
+  current_language() == LANG_Php ||
+  current_language() == LANG_Py ||
+  current_language() == LANG_Rkt ||
+  current_language() == LANG_Cl ||
+  current_language() == LANG_Cc ||
+  current_language() == LANG_Cpp ||
+  current_language() == LANG_Rb ||
+  current_language() == LANG_Pl ||
+  current_language() == LANG_Pl ||
+  current_language() == LANG_Lua
+  then
+    return {
+      tag use_cpp_algorithm
+      tag perl_use_list_min
+      return native_macro_min3( ${a}, ${b}, ${c})
+     }
+  else
+    return { return min2(min2( ${a}, ${b}), ${c}) }
+  end
+end
+
+def inline int min3(int a, int b, int c)
+	${ macro_min3( {a}, {b}, {c} )}
+end
+
+def lexems macro_min4(lexems a, lexems b, lexems c, lexems d)
+  if current_language() == LANG_Js ||
+  current_language() == LANG_Php ||
+  current_language() == LANG_Py  ||
+  current_language() == LANG_Rkt ||
+  current_language() == LANG_Cl ||
+  current_language() == LANG_Cc ||
+  current_language() == LANG_Cpp ||
+  current_language() == LANG_Rb ||
+  current_language() == LANG_Pl ||
+  current_language() == LANG_Lua
+  then
+    return {
+      tag use_cpp_algorithm
+      tag perl_use_list_min
+      return native_macro_min4( ${a}, ${b}, ${c}, ${d})
+  }
+  else
+    return { 	return min3(min2(a, b), c, d) }
+  end
+end
+
+def inline int min4(int a, int b, int c, int d)
+	${ macro_min4( {a}, {b}, {c}, {d} )}
+end
+
+def int pgcd(int a, int b)
+	def c = min2(a, b)
+	def d = max2(a, b)
+	def reste = d % c
+	if reste == 0 then
+		return c
+	else
+		return pgcd(c, reste)
 	end
 end
 
-main
-	def int len = 2
-	read int len skip
-	def array<int> tab[len] with i do
-		def int tmp = 0
-		read int tmp skip
-		return tmp
+macro array<int> native_expand_read_int_line(int c)
+  py do "list(map(int, input().split()))"
+  php do "array_map(\"intval\", explode(\" \", fgets(STDIN)))"
+  fsharp do "(Console.ReadLine ()).Split [|' '|] |> Array.map Int32.Parse"
+  csharp do "new List<string>(Console.ReadLine().Split(\" \".ToCharArray())).ConvertAll(int.Parse).ToArray()"
+  vb do "Array(Of String).ConvertAll(Of String, Integer)(Console.ReadLine().Split(\" \".ToCharArray()), New Converter(Of String, Integer)(AddressOf Integer.Parse))"
+  rkt do "list->vector (map string->number (regexp-split \" \" (read-line)))"
+  ruby do "STDIN.readline.split(\" \").map{ |x| x.to_i(10) }"
+  pl do "[ map { int($_) } split(/\\s+/, <STDIN>) ]"
+  java do "read_int_line()"
+  groovy do "read_int_line()"
+  lua do "readintline()"
+  hs do "join (newListArray . (,) 0 . subtract 1 <$> $c <*> fmap (map read . words) getLine)"
+  scala do "readLine().split(\" \").map(_.toInt)"
+  *  do "E R R O R"
+end
+
+macro array<char> native_expand_read_char_line(int c)
+  py do "list(input())"
+  php do "fgets(STDIN)"
+  csharp do "Console.ReadLine().ToCharArray()"
+  fsharp do "(Console.ReadLine ()).ToCharArray ()"
+  vb do "Console.ReadLine().ToCharArray()"
+  cpp do "getline()"
+  rkt do "list->vector (string->list (read-line))"
+  ruby do "STDIN.readline.split(//)"
+  pl do "[split(//, <STDIN>)]"
+  lua do "readcharline()"
+  java do "scanner.nextLine().toCharArray()"
+  groovy do "scanner.nextLine().toCharArray()"
+  hs do "join (newListArray <$> (fmap (\\x -> (0, x-1)) ($c)) <*> getLine)"
+  scala do "readLine().toCharArray()"
+  *  do "E R R O R"
+end
+
+macro array<array<int>> py_expand_read_int_matrix(int x, int y)
+  py do "[list(map(int, input().split())) for i in range($y)]"
+  ruby do "[*1..$y].map { |l| STDIN.readline.split(\" \").map{ |x| x.to_i(10) } }"
+  cpp do "read_matrix<int>($y, $x)"
+  *  do "E R R O R"
+end
+
+macro array<array<char>> py_expand_read_char_matrix(int x, int y)
+  cpp do "read_matrix<char>($y, $x)"
+  *  do "E R R O R"
+end
+
+macro int native_expand_read_int()
+  py do "int(input())"
+  php do "intval(trim(fgets(STDIN)))"
+  csharp do "int.Parse(Console.ReadLine())"
+  fsharp do "Console.ReadLine () |> Int32.Parse"
+  vb do "Integer.Parse(Console.ReadLine())"
+  ml do "Scanf.scanf \"%d \" (fun x -> x)"
+  rkt do "string->number (read-line)"
+  ruby do "STDIN.readline.to_i(10)"
+  pl do "int( <STDIN> )"
+  lua do "tonumber(io.read('*l'))"
+  java do "Integer.parseInt(scanner.nextLine())"
+  groovy do "Integer.parseInt(scanner.nextLine())"
+  hs do "fmap read getLine"
+  scala do "readInt().toInt"
+  st do "stdin nextLine asInteger"
+  *  do "E R R O R"
+end
+
+def lexems expand_read_int()
+if current_language() == LANG_Fun_ml
+then
+  return {
+  return native_expand_read_int()
+  }
+	elsif current_language() == LANG_Py ||
+	current_language() == LANG_Php ||
+	current_language() == LANG_Rkt ||
+	current_language() == LANG_Pl ||
+	current_language() == LANG_Cs ||
+	current_language() == LANG_Vb ||
+	current_language() == LANG_Fsscript ||
+	current_language() == LANG_Java ||
+	current_language() == LANG_Groovy ||
+	current_language() == LANG_Rb ||
+	current_language() == LANG_Lua ||
+	current_language() == LANG_Hs ||
+	current_language() == LANG_Scala
+	then
+    return {
+    tag use_readline
+		tag use_readmacros
+    return native_expand_read_int()
+    }
+  else
+    return { def inline read int out skip; return out }
 	end
-	sort_(tab, len)
-	print array<int> tab
+end
+
+def inline int read_int()
+  ${ expand_read_int() }
+end
+
+def lexems expand_read_int_line(lexems a)
+    if current_language() == LANG_Py ||
+	current_language() == LANG_Php ||
+	current_language() == LANG_Cs ||
+	current_language() == LANG_Vb ||
+	current_language() == LANG_Fsscript ||
+	current_language() == LANG_Pl ||
+	current_language() == LANG_Rkt ||
+	current_language() == LANG_Java ||
+	current_language() == LANG_Groovy ||
+	current_language() == LANG_Rb ||
+	current_language() == LANG_Lua ||
+	current_language() == LANG_Scala ||
+	current_language() == LANG_Hs
+	  then
+      return {
+        tag use_readintline
+        tag use_java_readline
+        tag use_readmacros
+        tag use_readline
+        return native_expand_read_int_line(${a})
+      }
+    else
+    return {
+      def inline array<int> tab[${a}] with i do
+      	def inline read int t skip
+				return t
+      end
+      return tab
+    }
+   end
+end
+
+def inline array<int> read_int_line(int n)
+  ${expand_read_int_line( {n} )}
+end
+
+def lexems expand_read_char_line(lexems a)
+  if current_language() == LANG_Lua ||
+  current_language() == LANG_Cc ||
+  current_language() == LANG_Cpp
+  then
+    return {
+      tag use_cc_readline
+      tag use_readcharline
+    return native_expand_read_char_line(${a})
+    }
+  elsif current_language() == LANG_Py ||
+	current_language() == LANG_Php ||
+	current_language() == LANG_Rkt ||
+	current_language() == LANG_Pl ||
+	current_language() == LANG_Cs ||
+	current_language() == LANG_Vb ||
+	current_language() == LANG_Fsscript ||
+	current_language() == LANG_Java ||
+	current_language() == LANG_Groovy ||
+	current_language() == LANG_Rb ||
+	current_language() == LANG_Hs ||
+	current_language() == LANG_Scala
+	  then
+      return {
+      tag use_readline
+			tag use_readmacros
+      return native_expand_read_char_line(${a})
+      }
+    else
+    return {
+      def inline array<char> tab[${a}] with i do
+      	def inline read char t;
+				return t;
+      end
+			skip
+      return tab
+    }
+   end
+end
+
+def inline array<char> read_char_line(int n)
+    ${expand_read_char_line( {n} )}
+end
+
+def lexems expand_read_int_matrix(lexems x, lexems y)
+    if current_language() == LANG_Py ||
+       current_language() == LANG_Rb ||
+       current_language() == LANG_Cpp then
+      return {
+        tag use_cpp_readmatrix
+        return py_expand_read_int_matrix( ${ x }, ${ y } )
+      }
+    else
+    return {
+      def inline array<array<int>> tab[${y}] with z do
+				return read_int_line(x)
+      end
+      return tab
+    }
+   end
+end
+
+def inline array<array<int>> read_int_matrix(int x, int y)
+    ${expand_read_int_matrix( {x}, {y} )}
+end
+
+def lexems expand_read_char_matrix(lexems x, lexems y)
+  if current_language() == LANG_Cpp then
+    return {
+      tag use_cpp_readmatrix
+      return py_expand_read_char_matrix( ${ x }, ${ y } )
+    }
+  else
+    return {
+      def array<array<char>> tab[${y}] with z do
+        return read_char_line(x)
+      end
+      return tab
+    }
+  end
+end
+
+def inline array<array<char>> read_char_matrix(int x, int y)
+    ${expand_read_char_matrix( {x}, {y} )}
+end
+
+
+
+macro (int, int) native_expand_read_int_couple()
+  py do "list(map(int, input().split()))"
+  lua do "readintline()"
+  php do "array_map(\"intval\", explode(\" \", fgets(STDIN)))"
+  ruby do "STDIN.readline.split(\" \").map{ |x| x.to_i(10) }"
+  pl do "[ map { int($_) } split(/\\s+/, <STDIN>) ]"
+  rkt do "map string->number (regexp-split \" \" (read-line))"
+  hs do " (fmap read . head . reads) <$> getLine :: IO (Int, Int)"
+  scala do "readf2(\"{0,number} {1,number}\").asInstanceOf[(Long, Long)] match { case x => (x._1.toInt, x._2.toInt) }"
+  *  do "E R R O R"
+end
+
+def lexems expand_read_int_couple()
+  if current_language() == LANG_Vb ||
+     current_language() == LANG_Cs ||
+     current_language() == LANG_Fsscript ||
+     current_language() == LANG_Java ||
+     current_language() == LANG_Groovy
+  then
+    return { def array<int> l = read_int_line(2)
+    return (l[0], l[1]) }
+  elsif current_language() == LANG_Py ||
+    current_language() == LANG_Php ||
+    current_language() == LANG_Rb ||
+    current_language() == LANG_Rkt ||
+    current_language() == LANG_Pl ||
+     current_language() == LANG_Lua ||
+    current_language() == LANG_Hs ||
+     current_language() == LANG_Scala
+  then
+    return {
+      tag use_readintline
+      tag use_readtuple
+      return native_expand_read_int_couple()
+    }
+  else
+    return {
+    def inline read int a skip
+    def inline read int b skip
+    return (a, b)
+    }
+  end
+end
+
+def inline (int, int) read_int_couple()
+  ${ expand_read_int_couple() }
+end
+
+
+
+macro (int, int, int) native_expand_read_3ints()
+  py do "list(map(int, input().split()))"
+  lua do "readintline()"
+  php do "array_map(\"intval\", explode(\" \", fgets(STDIN)))"
+  ruby do "STDIN.readline.split(\" \").map{ |x| x.to_i(10) }"
+  pl do "[ map { int($_) } split(/\\s+/, <STDIN>) ]"
+  rkt do "map string->number (regexp-split \" \" (read-line))"
+  scala do "readf3(\"{0,number} {1,number} {2,number}\").asInstanceOf[(Long, Long, Long)] match { case x => (x._1.toInt, x._2.toInt, x._3.toInt) }"
+  *  do "E R R O R"
+end
+
+def lexems expand_read_3ints()
+  if current_language() == LANG_Vb ||
+     current_language() == LANG_Cs ||
+     current_language() == LANG_Fsscript ||
+     current_language() == LANG_Hs ||
+     current_language() == LANG_Groovy ||
+     current_language() == LANG_Java then
+    return { def array<int> l = read_int_line(3)
+    return (l[0], l[1], l[2]) }
+  elsif current_language() == LANG_Py ||
+    current_language() == LANG_Php ||
+    current_language() == LANG_Rb ||
+     current_language() == LANG_Lua ||
+    current_language() == LANG_Rkt ||
+    current_language() == LANG_Scala ||
+    current_language() == LANG_Pl
+  then
+    return {
+      tag use_readtuple
+      tag use_readintline
+      return native_expand_read_3ints()
+    }
+  else
+    return {
+    def inline read int a skip
+    def inline read int b skip
+    def inline read int c skip
+    return (a, b, c)
+    }
+  end
+end
+
+def inline (int, int, int) read_3ints()
+  ${ expand_read_3ints() }
 end
 </textarea>
-L'exemple ci-dessous permet de trier un tableau d'entiers avec un tri quadratique.
-</div>
-</td>
-<td>
-<div class="editor">
-<h3>La version ocaml</h3>
-<textarea id="exemple_ml_0">
-let rec sort_ tab len =
-  for i = 0 to len - 1 do
-    for j = i + 1 to len - 1 do
-      if tab.(i) > tab.(j) then
-        begin
-          let tmp = tab.(i) in
-          tab.(i) <- tab.(j);
-          tab.(j) <- tmp
-        end
-    done
-  done
-
-let () =
-begin
-  let len = ref( 2 ) in
-  Scanf.scanf "%d" (fun value -> len := value);
-  Scanf.scanf "%[\n \010]" (fun _ -> ());
-  let tab = Array.init ((!len)) (fun i ->
-    let tmp = ref( 0 ) in
-    Scanf.scanf "%d" (fun value -> tmp := value);
-    Scanf.scanf "%[\n \010]" (fun _ -> ());
-    (!tmp)) in
-  sort_ tab (!len);
-  for a = 0 to ((Array.length tab)) - 1 do
-    Printf.printf "%d" (tab.(a))
-  done
+<div id="main">
+    <h1>Métalang</h1>
+    <div id="left">
+      <h2 style="height:2em">Code source</h2>
+      <div><textarea id="input_text" cols="80" style="height:100%">main
+  print int 10
 end
 </textarea>
-Et voici la version ocaml correspondante générée grace à Métalang
 </div>
-</td></tr></table>
 
-<h2>Backends</h2>
-<p>Métalang peut s'exporter vers les langages suivants :</p>
-<ul>
-<li>C</li>
-<li>C++</li>
-<li>C#</li>
-<li>java</li>
-<li>ocaml</li>
-<li>php</li>
-<li>python</li>
-<li>ruby</li>
-<li>pascal</li>
-<li>javascript</li>
-</ul>
+    </div>
 
-<p>Metalang à été testé avec les compilateurs suivants</p>
-<pre>
-gcc version 4.6.1
-fpc version 2.4.4
-mono version 2.10.5
-java 1.5 : GIJ version 4.6.1
-javascript : node v0.4.9
-ocaml version 3.12
-php version 5.3.6
-ruby version 1.9.2
-python 3.2.2
-</pre>
-<p>
-Il devrait fonctionner avec beaucoup d'autres versions, mais cependant, des problèmes sont connus avec python 2.</p>
-
-
-<h2>Changelog</h2>
-<p>Metalang est un langage de programmation en développement a partir de février 2012, premiere version stable en aout 2012.</p>
-<ul>
-
-  <li>V1.0.2 novembre 2012</li>
-  <ul>
-    <li>Ajout des macros</li>
-    <li>Fixes sur les printers javascript et pascal</li>
-    <li>Fixes sur le typer</li>
-  </ul>
-  <li>V1.0.1 octobre 2012</li>
-  <ul>
-    <li>Fixes sur les rapports d'erreurs</li>
-    <li>Ajout des enumerateurs</li>
-    <li>Ajout d'un printer javascript</li>
-  </ul>
-  <li>V1.0 aout 2012</li>
-  <ul>
-    <li>Premiere version comprennant un compilateur et un interpréteur</li>
-  </ul>
-</ul>
+    <div id="right">
+      <h2 style="float:left;height:2em">Compiler</h2>
+      <div id="tools">
+        <select id="language">
+          <option value="adb">Ada</option>
+          <option value="c">C</option>
+          <option value="cc">C++</option>
+          <option value="cl">Common lisp</option>
+          <option value="cpp">C++ (prologin variant)</option>
+          <option value="cs">C#</option>
+          <option value="fs">Forth</option>
+          <option value="fsscript">F#</option>
+          <option value="fun.ml">Ocaml fonctionnel</option>
+          <option value="go">Go</option>
+          <option value="groovy">Groovy</option>
+          <option value="hs">Haskell</option>
+          <option value="java">Java</option>
+          <option value="js">Javascript</option>
+          <option value="lua">Lua</option>
+          <option value="m">Objective-C</option>
+          <option value="ml">ocaml</option>
+          <option value="pas">Pascal</option>
+          <option value="php">Php</option>
+          <option value="pl">Perl</option>
+          <option value="py">Python</option>
+          <option value="rb">Ruby</option>
+          <option value="scala">Scala</option>
+          <option value="st">Smalltalk</option>
+          <option value="vb">Visual Basic</option>
+        </select>
+        <input id="replicate" type="submit" style="display:none"/>
+        <input type="submit" value="métalèche" onclick="update();"/>
+      </div>
+      <div style="clear:both"></div>
+      <div id="stderr_box">
+      <h2>stderr</h2>
+      <p><textarea id="stderr" rows="5" style="width: 80%"></textarea></p>
+      </div>
+      <div id="copy_box">
+      <textarea id="copy" style="width: 80%"></textarea>
+      </div>
+    </div>
+<div id="footer1">
+  <div id="footer1_left">
+    <h2 style="float:left;height:2em">stdin</h2>
+<input id="eval_btn" type="submit" style="display:none"/>
+<input type="submit" value="Eval" onclick="updateEval();"/>
+    <p><textarea id="stdin" rows="5" style="width: 100%">10
+10
+</textarea></p>
 </div>
-<div style="clear:both"></div>
-</body>
+  <div id="stdout_box">
+    <h2 style="height:2em">stdout</h2>
+    <p><textarea id="stdout" rows="5" style="width:100%"></textarea></p>
+  </div>
+<div style="clear:both;"></div>
+</div>
+<div style="clear:both;"></div>
+</div>
+<div id="footer2">
+    <ul>
+      <li><a href="http://www.prologin.org">Prologin</a></li>
+      <li><a href="../">Maxime Audouin (coucou747)</a></li>
+<li><a href="https://github.com/prologin/metalang">github</a></li>
+    </ul>
+</div>
+
+    <script language="javascript">
+      var theme = "blackboard";
+      var showHide = function(){
+          document.getElementById("stderr_box").style.display= document.getElementById("stderr").value == "" ? "none" : "block";
+          document.getElementById("stdout_box").style.display= document.getElementById("stdout").value == "" ? "none" : "block";
+
+        if (document.getElementById("copy").value == ""){
+          document.getElementById("copy_box").style.display="none";
+          return false;
+        }else{
+          document.getElementById("copy_box").style.display="block";
+          return true;
+        }
+      }
+
+      var code = null;
+      var ed = CodeMirror.fromTextArea(document.getElementById('input_text'), {
+        lineNumbers: true,
+        mode: 'text/x-metalang',
+      });
+
+      ed.setOption("theme", theme);
+
+      var update = function(){
+        document.getElementById("input_text").value=ed.getValue();
+        document.getElementById("replicate").click();
+
+      if (showHide()){
+        var lng = 'text/x-csrc';
+        switch (document.getElementById("language")){
+          case 'ml':
+            lng = 'text/x-ocaml';
+          break;
+          case 'js':
+            lng = 'text/x-javascript';
+          break;
+          case 'pas':
+            lng = 'text/x-pascal';
+          break;
+          case 'php':
+            lng = 'text/x-php';
+          break;
+          case 'py':
+            lng = 'text/x-python';
+          break;
+          case 'rb':
+            lng = 'text/x-ruby';
+          break;
+        }
+
+        if (code == null){
+          code = CodeMirror.fromTextArea(document.getElementById('copy'), {
+            lineNumbers: true,
+            mode: lng,
+          });
+          code.setOption("theme", theme);
+        }else{
+          code.setValue( document.getElementById("copy").value );
+          code.setOption( "mode", lng );
+        }
+        }
+      }
+
+      var updateEval = function(){
+        document.getElementById("input_text").value=ed.getValue();
+        document.getElementById("eval_btn").click();
+        showHide();
+      }
+showHide();
+</script>
+<script type="text/javascript">
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-51690719-1', 'megami.fr');
+  ga('send', 'pageview');
+
+</script>
+
+  </body>
 </html>
