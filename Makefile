@@ -376,13 +376,20 @@ doc :
 
 libmetalang.cma :
 	@ocamlbuild -use-ocamlfind src/libmetalang.cma
+	ocamlfind remove metalang
+	ocamlfind install metalang META _build/src/*.cma _build/src/*.cmi
 
 js/test.js : libmetalang.cma
-	ocamlc -I +js_of_ocaml -I _build/src/ -pp "camlp4o js_of_ocaml/pa_js.cmo" str.cma libmetalang.cma js_of_ocaml.cma js/test.ml -o js/test.byte
-	js_of_ocaml js/test.byte
-	rm js/test.cmo js/test.cmi js/test.byte
+	ocamlfind ocamlc \
+		-package js_of_ocaml \
+		-package js_of_ocaml.ppx \
+		-package incr_dom \
+		-package metalang -linkpkg -o js/test.byte js/test.ml
+	js_of_ocaml +nat.js --disable genprim js/test.byte
+	rm js/test.cmo js/test.cmi
 
 js/meta.js : js/test.js
+	#js_of_ocaml --runtime-only js/runtime.js
 	cat js/header.js js/test.js > js/meta.js
 
 .PHONY: clean
