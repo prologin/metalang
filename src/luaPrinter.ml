@@ -92,7 +92,7 @@ let print_instr c i =
     | SelfAffect (mut, op, e) -> assert false
     | Affect (mut, e) -> fprintf f "%a = %a" (c.print_mut c nop) mut e nop
     | ClikeLoop (init, cond, incr, li) -> assert false
-    | Loop (var, e1, e2, li) -> fprintf f "@[<v 4>@[<h>for %a = %a, %a do@]%a@\nend"
+    | Loop (var, e1, e2, li) -> fprintf f "@[<v 4>for @[<h>%a = %a, %a@] do%a@]@\nend"
                                   c.print_varname var e1 nop e2 nop
                                   block li
     | While (e, li) -> fprintf f "@[<v 4>while @[<h>%a@] do%a@]@\nend" e nop block li
