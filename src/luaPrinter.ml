@@ -205,7 +205,6 @@ end@\n") ()
           Format.fprintf f "
 function readcharline()
   local tab = {}
-  local i = 0
   for a in string.gmatch(io.read(\"*l\"), \".\") do
     table.insert(tab, string.byte(a))
   end
@@ -218,7 +217,7 @@ end@\n") ()
       (fun f () -> if need then Format.fprintf f "buffer =  \"\"@\n") ()
       (fun f () -> if need_readint then Format.fprintf f "function readint()
     if buffer == \"\" then buffer = io.read(\"*line\") end
-    local num, buffer0 = string.match(buffer, '^([\\-0-9]*)(.*)')
+    local num, buffer0 = string.match(buffer, '^([%%-0-9]*)(.*)')
     buffer = buffer0
     return tonumber(num)
 end@\n") ()
