@@ -147,7 +147,7 @@ let print_instr c i =
                                       | _ -> assert false) ty) li
       in
       fprintf f "%a" (print_list (fun f g -> g f) sep_nl) li
-    | Untuple (li, expr, opt) -> fprintf f "%a = unpack(%a)" (print_list c.print_varname sep_c) (List.map snd li) expr nop
+    | Untuple (li, expr, opt) -> fprintf f "%a = table.unpack(%a)" (print_list c.print_varname sep_c) (List.map snd li) expr nop
     | Unquote e -> assert false in
   let is_multi_instr = match i with
     | Read (hd::tl) -> true
