@@ -11,20 +11,19 @@ local a = {}
 for i = 0, 4 do
     io.write(i)
     j = j + i
-    a[i + 1] = math.mod(i, 2) == 0
-    end
-    io.write(string.format("%d ", j))
-    if a[1] then
-        io.write("True")
-    else 
-        io.write("False")
-    end
-    io.write("\n")
-    g(id(a), 0)
-    if a[1] then
-        io.write("True")
-    else 
-        io.write("False")
-    end
-    io.write("\n")
-    
+    a[i + 1] = math.fmod(i, 2) == 0
+end
+io.write(string.format("%d ", j))
+if a[1] then
+    io.write("True")
+else 
+    io.write("False")
+end
+io.write("\n")
+g(id(a), 0)
+if a[1] then
+    io.write("True")
+else 
+    io.write("False")
+end
+io.write("\n")

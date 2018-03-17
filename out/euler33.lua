@@ -5,7 +5,7 @@ end
 function pgcd (a, b)
   local c = math.min(a, b)
   local d = math.max(a, b)
-  local reste = math.mod(d, c)
+  local reste = math.fmod(d, c)
   if reste == 0 then
       return c
   else 
@@ -27,10 +27,9 @@ for i = 1, 9 do
                     bottom = bottom * b
                 end
             end
-            end
-            end
-            end
-            io.write(string.format("%d/%d\n", top, bottom))
-            local p = pgcd(top, bottom)
-            io.write(string.format("pgcd=%d\n%d\n", p, trunc(bottom / p)))
-            
+        end
+    end
+end
+io.write(string.format("%d/%d\n", top, bottom))
+local p = pgcd(top, bottom)
+io.write(string.format("pgcd=%d\n%d\n", p, trunc(bottom / p)))

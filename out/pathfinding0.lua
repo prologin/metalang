@@ -1,7 +1,6 @@
 
 function readcharline()
   local tab = {}
-  local i = 0
   for a in string.gmatch(io.read("*l"), ".") do
     table.insert(tab, string.byte(a))
   end
@@ -35,21 +34,20 @@ function pathfind (tab, x, y)
       for j = 0, x - 1 do
           io.write(string.format("%c", tab[i + 1][j + 1]))
           tmp[j + 1] = -1
-          end
-          io.write("\n")
-          cache[i + 1] = tmp
-          end
-          return pathfind_aux(cache, tab, x, y, 0, 0)
       end
-      
-      local x = tonumber(io.read('*l'))
-      local y = tonumber(io.read('*l'))
-      io.write(string.format("%d %d\n", x, y))
-      local e = {}
-      for f = 0, y - 1 do
-          e[f + 1] = readcharline()
-          end
-          local tab = e
-          local result = pathfind(tab, x, y)
-          io.write(result)
-          
+      io.write("\n")
+      cache[i + 1] = tmp
+  end
+  return pathfind_aux(cache, tab, x, y, 0, 0)
+end
+
+local x = tonumber(io.read('*l'))
+local y = tonumber(io.read('*l'))
+io.write(string.format("%d %d\n", x, y))
+local e = {}
+for f = 0, y - 1 do
+    e[f + 1] = readcharline()
+end
+local tab = e
+local result = pathfind(tab, x, y)
+io.write(result)

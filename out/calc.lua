@@ -12,9 +12,8 @@ function fibo (a, b, i)
       local tmp = b2
       b2 = b2 + a2
       a2 = tmp
-      end
-      return out_
   end
-  
-  io.write(fibo(1, 2, 4))
-  
+  return out_
+end
+
+io.write(fibo(1, 2, 4))

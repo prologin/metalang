@@ -10,6 +10,5 @@ for a = 1, 1000 do
         if cc == a2b2 and c > a then
             io.write(string.format("%d\n%d\n%d\n%d\n", a, b, c, a * b * c))
         end
-        end
-        end
-        
+    end
+end

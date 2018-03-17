@@ -1,7 +1,7 @@
 buffer =  ""
 function readint()
     if buffer == "" then buffer = io.read("*line") end
-    local num, buffer0 = string.match(buffer, '^([\-0-9]*)(.*)')
+    local num, buffer0 = string.match(buffer, '^([%-%d]*)(.*)')
     buffer = buffer0
     return tonumber(num)
 end
@@ -45,29 +45,28 @@ function find (len, tab)
       local tab3 = {}
       for j = 0, i do
           tab3[j + 1] = 0
-          end
-          tab2[i + 1] = tab3
-          end
-          return find0(len, tab, tab2, 0, 0)
       end
-      
-      local len = readint()
-      stdinsep()
-      local tab = {}
-      for i = 0, len - 1 do
-          local tab2 = {}
-          for j = 0, i do
-              local tmp = readint()
-              stdinsep()
-              tab2[j + 1] = tmp
-              end
-              tab[i + 1] = tab2
-              end
-              io.write(string.format("%d\n", find(len, tab)))
-              for k = 0, len - 1 do
-                  for l = 0, k do
-                      io.write(string.format("%d ", tab[k + 1][l + 1]))
-                      end
-                      io.write("\n")
-                      end
-                      
+      tab2[i + 1] = tab3
+  end
+  return find0(len, tab, tab2, 0, 0)
+end
+
+local len = readint()
+stdinsep()
+local tab = {}
+for i = 0, len - 1 do
+    local tab2 = {}
+    for j = 0, i do
+        local tmp = readint()
+        stdinsep()
+        tab2[j + 1] = tmp
+    end
+    tab[i + 1] = tab2
+end
+io.write(string.format("%d\n", find(len, tab)))
+for k = 0, len - 1 do
+    for l = 0, k do
+        io.write(string.format("%d ", tab[k + 1][l + 1]))
+    end
+    io.write("\n")
+end

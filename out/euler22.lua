@@ -1,7 +1,7 @@
 buffer =  ""
 function readint()
     if buffer == "" then buffer = io.read("*line") end
-    local num, buffer0 = string.match(buffer, '^([\-0-9]*)(.*)')
+    local num, buffer0 = string.match(buffer, '^([%-%d]*)(.*)')
     buffer = buffer0
     return tonumber(num)
 end
@@ -25,14 +25,13 @@ function score ()
       local c = readchar()
       sum = sum + c - 65 + 1
       --[[		print c print " " print sum print " " --]]
-      end
-      return sum
   end
-  
-  local sum = 0
-  local n = readint()
-  for i = 1, n do
-      sum = sum + i * score()
-      end
-      io.write(string.format("%d\n", sum))
-      
+  return sum
+end
+
+local sum = 0
+local n = readint()
+for i = 1, n do
+    sum = sum + i * score()
+end
+io.write(string.format("%d\n", sum))

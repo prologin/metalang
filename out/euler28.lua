@@ -27,9 +27,8 @@ function sumdiag (n)
       un = un + d
       --[[ print int d print "=>" print un print " " --]]
       sum = sum + un
-      end
-      return sum
   end
-  
-  io.write(sumdiag(1001))
-  
+  return sum
+end
+
+io.write(sumdiag(1001))

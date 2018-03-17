@@ -23,7 +23,7 @@ c * f * 10000
 
 function chiffre (c, m)
   if c == 0 then
-      return math.mod(m, 10)
+      return math.fmod(m, 10)
   else 
       return chiffre(c - 1, trunc(m / 10))
   end
@@ -40,11 +40,10 @@ for a = 0, 9 do
                         if chiffre(0, mul) == chiffre(5, mul) and chiffre(1, mul) == chiffre(4, mul) and chiffre(2, mul) == chiffre(3, mul) then
                             m = math.max(mul, m)
                         end
-                        end
-                        end
-                        end
-                        end
-                        end
-                        end
-                        io.write(string.format("%d\n", m))
-                        
+                    end
+                end
+            end
+        end
+    end
+end
+io.write(string.format("%d\n", m))

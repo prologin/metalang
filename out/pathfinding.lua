@@ -1,7 +1,7 @@
 buffer =  ""
 function readint()
     if buffer == "" then buffer = io.read("*line") end
-    local num, buffer0 = string.match(buffer, '^([\-0-9]*)(.*)')
+    local num, buffer0 = string.match(buffer, '^([%-%d]*)(.*)')
     buffer = buffer0
     return tonumber(num)
 end
@@ -43,27 +43,26 @@ function pathfind (tab, x, y)
       local tmp = {}
       for j = 0, x - 1 do
           tmp[j + 1] = -1
-          end
-          cache[i + 1] = tmp
-          end
-          return pathfind_aux(cache, tab, x, y, 0, 0)
       end
-      
-      local x = readint()
-      stdinsep()
-      local y = readint()
-      stdinsep()
-      local tab = {}
-      for i = 0, y - 1 do
-          local tab2 = {}
-          for j = 0, x - 1 do
-              local tmp = 0
-              tmp = readchar()
-              tab2[j + 1] = tmp
-              end
-              stdinsep()
-              tab[i + 1] = tab2
-              end
-              local result = pathfind(tab, x, y)
-              io.write(result)
-              
+      cache[i + 1] = tmp
+  end
+  return pathfind_aux(cache, tab, x, y, 0, 0)
+end
+
+local x = readint()
+stdinsep()
+local y = readint()
+stdinsep()
+local tab = {}
+for i = 0, y - 1 do
+    local tab2 = {}
+    for j = 0, x - 1 do
+        local tmp = 0
+        tmp = readchar()
+        tab2[j + 1] = tmp
+    end
+    stdinsep()
+    tab[i + 1] = tab2
+end
+local result = pathfind(tab, x, y)
+io.write(result)

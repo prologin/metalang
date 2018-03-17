@@ -5,7 +5,7 @@ end
 buffer =  ""
 function readint()
     if buffer == "" then buffer = io.read("*line") end
-    local num, buffer0 = string.match(buffer, '^([\-0-9]*)(.*)')
+    local num, buffer0 = string.match(buffer, '^([%-%d]*)(.*)')
     buffer = buffer0
     return tonumber(num)
 end
@@ -37,29 +37,28 @@ for i = 0, len - 1 do
     stdinsep()
     io.write(string.format("%d=>%d ", i, tmpi1))
     tab[i + 1] = tmpi1
+end
+io.write("\n")
+local tab2 = {}
+for i_ = 0, len - 1 do
+    local tmpi2 = readint()
+    stdinsep()
+    io.write(string.format("%d==>%d ", i_, tmpi2))
+    tab2[i_ + 1] = tmpi2
+end
+local strlen = readint()
+stdinsep()
+io.write(string.format("%d=strlen\n", strlen))
+local tab4 = {}
+for toto = 0, strlen - 1 do
+    local tmpc = readchar()
+    local c = tmpc
+    io.write(string.format("%c:%d ", tmpc, c))
+    if tmpc ~= 32 then
+        c = math.fmod(c - 97 + 13, 26) + 97
     end
-    io.write("\n")
-    local tab2 = {}
-    for i_ = 0, len - 1 do
-        local tmpi2 = readint()
-        stdinsep()
-        io.write(string.format("%d==>%d ", i_, tmpi2))
-        tab2[i_ + 1] = tmpi2
-        end
-        local strlen = readint()
-        stdinsep()
-        io.write(string.format("%d=strlen\n", strlen))
-        local tab4 = {}
-        for toto = 0, strlen - 1 do
-            local tmpc = readchar()
-            local c = tmpc
-            io.write(string.format("%c:%d ", tmpc, c))
-            if tmpc ~= 32 then
-                c = math.mod(c - 97 + 13, 26) + 97
-            end
-            tab4[toto + 1] = c
-            end
-            for j = 0, strlen - 1 do
-                io.write(string.format("%c", tab4[j + 1]))
-                end
-                
+    tab4[toto + 1] = c
+end
+for j = 0, strlen - 1 do
+    io.write(string.format("%c", tab4[j + 1]))
+end

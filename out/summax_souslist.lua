@@ -1,7 +1,7 @@
 buffer =  ""
 function readint()
     if buffer == "" then buffer = io.read("*line") end
-    local num, buffer0 = string.match(buffer, '^([\-0-9]*)(.*)')
+    local num, buffer0 = string.match(buffer, '^([%-%d]*)(.*)')
     buffer = buffer0
     return tonumber(num)
 end
@@ -21,20 +21,19 @@ function summax (lst, len)
       if max0 < current then
           max0 = current
       end
-      end
-      return max0
   end
-  
-  local len = 0
-  len = readint()
-  stdinsep()
-  local tab = {}
-  for i = 0, len - 1 do
-      local tmp = 0
-      tmp = readint()
-      stdinsep()
-      tab[i + 1] = tmp
-      end
-      local result = summax(tab, len)
-      io.write(result)
-      
+  return max0
+end
+
+local len = 0
+len = readint()
+stdinsep()
+local tab = {}
+for i = 0, len - 1 do
+    local tmp = 0
+    tmp = readint()
+    stdinsep()
+    tab[i + 1] = tmp
+end
+local result = summax(tab, len)
+io.write(result)

@@ -7,8 +7,8 @@ function chiffre_sort (a)
       return a
   else 
       local b = chiffre_sort(trunc(a / 10))
-      local c = math.mod(a, 10)
-      local d = math.mod(b, 10)
+      local c = math.fmod(a, 10)
+      local d = math.fmod(b, 10)
       local e = trunc(b / 10)
       if c < d then
           return c + b * 10

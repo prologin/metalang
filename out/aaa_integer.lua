@@ -21,4 +21,4 @@ io.write(string.format("%d\n", i))
 --[[
 http://fr.wikipedia.org/wiki/Modulo_(op%C3%A9ration)#Trois_d.C3.A9finitions_de_la_fonction_modulo
 --]]
-io.write(string.format("%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n", trunc(117 / 17), trunc(117 / -17), trunc(-117 / 17), trunc(-117 / -17), math.mod(117, 17), math.mod(117, -17), math.mod(-117, 17), math.mod(-117, -17)))
+io.write(string.format("%d\n%d\n%d\n%d\n%d\n%d\n%d\n%d\n", trunc(117 / 17), trunc(117 / -17), trunc(-117 / 17), trunc(-117 / -17), math.fmod(117, 17), math.fmod(117, -17), math.fmod(-117, 17), math.fmod(-117, -17)))

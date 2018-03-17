@@ -5,7 +5,7 @@ end
 buffer =  ""
 function readint()
     if buffer == "" then buffer = io.read("*line") end
-    local num, buffer0 = string.match(buffer, '^([\-0-9]*)(.*)')
+    local num, buffer0 = string.match(buffer, '^([%-%d]*)(.*)')
     buffer = buffer0
     return tonumber(num)
 end
@@ -55,6 +55,5 @@ for i = 0, len - 1 do
     tmp = readint()
     stdinsep()
     tab[i + 1] = tmp
-    end
-    io.write(plus_petit0(tab, len))
-    
+end
+io.write(plus_petit0(tab, len))

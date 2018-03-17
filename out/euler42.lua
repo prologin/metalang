@@ -1,7 +1,7 @@
 buffer =  ""
 function readint()
     if buffer == "" then buffer = io.read("*line") end
-    local num, buffer0 = string.match(buffer, '^([\-0-9]*)(.*)')
+    local num, buffer0 = string.match(buffer, '^([%-%d]*)(.*)')
     buffer = buffer0
     return tonumber(num)
 end
@@ -34,24 +34,23 @@ function score ()
       local c = readchar()
       sum = sum + c - 65 + 1
       --[[		print c print " " print sum print " " --]]
-      end
-      if is_triangular(sum) then
-          return 1
-      else 
-          return 0
-      end
   end
-  
-  for i = 1, 55 do
-      if is_triangular(i) then
-          io.write(string.format("%d ", i))
-      end
-      end
-      io.write("\n")
-      local sum = 0
-      local n = readint()
-      for i = 1, n do
-          sum = sum + score()
-          end
-          io.write(string.format("%d\n", sum))
-          
+  if is_triangular(sum) then
+      return 1
+  else 
+      return 0
+  end
+end
+
+for i = 1, 55 do
+    if is_triangular(i) then
+        io.write(string.format("%d ", i))
+    end
+end
+io.write("\n")
+local sum = 0
+local n = readint()
+for i = 1, n do
+    sum = sum + score()
+end
+io.write(string.format("%d\n", sum))

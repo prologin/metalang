@@ -5,7 +5,7 @@ end
 buffer =  ""
 function readint()
     if buffer == "" then buffer = io.read("*line") end
-    local num, buffer0 = string.match(buffer, '^([\-0-9]*)(.*)')
+    local num, buffer0 = string.match(buffer, '^([%-%d]*)(.*)')
     buffer = buffer0
     return tonumber(num)
 end
@@ -18,7 +18,7 @@ function exp0 (a, b)
   if b == 0 then
       return 1
   end
-  if math.mod(b, 2) == 0 then
+  if math.fmod(b, 2) == 0 then
       local o = exp0(a, trunc(b / 2))
       return o * o
   else 

@@ -11,7 +11,7 @@ while a ~= 1 do
     local b = b0
     local found = false
     while b <= sqrtia do
-        if math.mod(a, b) == 0 then
+        if math.fmod(a, b) == 0 then
             a = trunc(a / b)
             b0 = b
             b = a

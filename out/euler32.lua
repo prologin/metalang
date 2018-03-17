@@ -30,7 +30,7 @@ function okdigits (ok, n)
   if n == 0 then
       return true
   else 
-      local digit = math.mod(n, 10)
+      local digit = math.fmod(n, 10)
       if ok[digit + 1] then
           ok[digit + 1] = false
           local o = okdigits(ok, trunc(n / 10))
@@ -46,57 +46,56 @@ local count = 0
 local allowed = {}
 for i = 0, 9 do
     allowed[i + 1] = i ~= 0
-    end
-    local counted = {}
-    for j = 0, 99999 do
-        counted[j + 1] = false
-        end
-        for e = 1, 9 do
-            allowed[e + 1] = false
-            for b = 1, 9 do
-                if allowed[b + 1] then
-                    allowed[b + 1] = false
-                    local be = math.mod(b * e, 10)
-                    if allowed[be + 1] then
-                        allowed[be + 1] = false
-                        for a = 1, 9 do
-                            if allowed[a + 1] then
-                                allowed[a + 1] = false
-                                for c = 1, 9 do
-                                    if allowed[c + 1] then
-                                        allowed[c + 1] = false
-                                        for d = 1, 9 do
-                                            if allowed[d + 1] then
-                                                allowed[d + 1] = false
-                                                --[[ 2 * 3 digits --]]
-                                                local product = (a * 10 + b) * (c * 100 + d * 10 + e)
-                                                if not(counted[product + 1]) and okdigits(allowed, trunc(product / 10)) then
-                                                    counted[product + 1] = true
-                                                    count = count + product
-                                                    io.write(string.format("%d ", product))
-                                                end
-                                                --[[ 1  * 4 digits --]]
-                                                local product2 = b * (a * 1000 + c * 100 + d * 10 + e)
-                                                if not(counted[product2 + 1]) and okdigits(allowed, trunc(product2 / 10)) then
-                                                    counted[product2 + 1] = true
-                                                    count = count + product2
-                                                    io.write(string.format("%d ", product2))
-                                                end
-                                                allowed[d + 1] = true
-                                            end
-                                            end
-                                            allowed[c + 1] = true
+end
+local counted = {}
+for j = 0, 99999 do
+    counted[j + 1] = false
+end
+for e = 1, 9 do
+    allowed[e + 1] = false
+    for b = 1, 9 do
+        if allowed[b + 1] then
+            allowed[b + 1] = false
+            local be = math.fmod(b * e, 10)
+            if allowed[be + 1] then
+                allowed[be + 1] = false
+                for a = 1, 9 do
+                    if allowed[a + 1] then
+                        allowed[a + 1] = false
+                        for c = 1, 9 do
+                            if allowed[c + 1] then
+                                allowed[c + 1] = false
+                                for d = 1, 9 do
+                                    if allowed[d + 1] then
+                                        allowed[d + 1] = false
+                                        --[[ 2 * 3 digits --]]
+                                        local product = (a * 10 + b) * (c * 100 + d * 10 + e)
+                                        if not(counted[product + 1]) and okdigits(allowed, trunc(product / 10)) then
+                                            counted[product + 1] = true
+                                            count = count + product
+                                            io.write(string.format("%d ", product))
                                         end
+                                        --[[ 1  * 4 digits --]]
+                                        local product2 = b * (a * 1000 + c * 100 + d * 10 + e)
+                                        if not(counted[product2 + 1]) and okdigits(allowed, trunc(product2 / 10)) then
+                                            counted[product2 + 1] = true
+                                            count = count + product2
+                                            io.write(string.format("%d ", product2))
                                         end
-                                        allowed[a + 1] = true
+                                        allowed[d + 1] = true
                                     end
-                                    end
-                                    allowed[be + 1] = true
                                 end
-                                allowed[b + 1] = true
+                                allowed[c + 1] = true
                             end
-                            end
-                            allowed[e + 1] = true
-                            end
-                            io.write(string.format("%d\n", count))
-                            
+                        end
+                        allowed[a + 1] = true
+                    end
+                end
+                allowed[be + 1] = true
+            end
+            allowed[b + 1] = true
+        end
+    end
+    allowed[e + 1] = true
+end
+io.write(string.format("%d\n", count))

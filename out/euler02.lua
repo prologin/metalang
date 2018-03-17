@@ -3,7 +3,7 @@ local a = 1
 local b = 2
 local sum = 0
 while a < 4000000 do
-    if math.mod(a, 2) == 0 then
+    if math.fmod(a, 2) == 0 then
         sum = sum + a
     end
     local c = a

@@ -1,5 +1,5 @@
 function is_leap (year)
-  return math.mod(year, 400) == 0 or math.mod(year, 100) ~= 0 and math.mod(year, 4) == 0
+  return math.fmod(year, 400) == 0 or math.fmod(year, 100) ~= 0 and math.fmod(year, 4) == 0
 end
 
 function ndayinmonth (month, year)
@@ -42,13 +42,13 @@ local dayofweek = 1
 local count = 0
 while year ~= 2001 do
     local ndays = ndayinmonth(month, year)
-    dayofweek = math.mod(dayofweek + ndays, 7)
+    dayofweek = math.fmod(dayofweek + ndays, 7)
     month = month + 1
     if month == 12 then
         month = 0
         year = year + 1
     end
-    if math.mod(dayofweek, 7) == 6 then
+    if math.fmod(dayofweek, 7) == 6 then
         count = count + 1
     end
 end
