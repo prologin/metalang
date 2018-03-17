@@ -24,7 +24,7 @@ unit:
 	ocamlbuild -use-ocamlfind src/unit.byte
 	./unit.byte
 
-lua	?=	lua5.1
+lua	?=	lua
 java	?=	java
 python	?=	python3
 
