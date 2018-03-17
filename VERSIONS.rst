@@ -2,8 +2,8 @@ compiler versions
 ==========
 
 * The OCaml toplevel, version 4.04.1
-* gcc (Debian 4.9.2-10) 4.9.2
-* g++ (Debian 4.9.2-10) 4.9.2
+* gcc (Debian 4.9.2-10+deb8u1) 4.9.2
+* g++ (Debian 4.9.2-10+deb8u1) 4.9.2
 * fpc Free Pascal Compiler version 2.6.4
 * GNATMAKE 4.9.2
 * javac 1.8.0-internal
@@ -15,10 +15,10 @@ compiler versions
 * Mono JIT compiler version 3.2.8 (Debian 3.2.8+dfsg-10)
 * go version go1.2.2 linux/amd64
 * node v9.0.0-pre
-* Lua 5.1.5  Copyright (C) 1994-2012 Lua.org, PUC-Rio
+* Lua 5.3.4  Copyright (C) 1994-2017 Lua.org, PUC-Rio
 * This is perl 5, version 20, subversion 2 (v5.20.2) built for x86_64-linux-gnu-thread-multi
 * Scala code runner version 2.11.9-20160619-134011-aaf7bc0b94 -- Copyright 2002-2016, LAMP/EPFL
-* PHP 5.6.30-0+deb8u1 (cli) (built: Feb  8 2017 08:50:21) 
+* PHP 5.6.33-0+deb8u1 (cli) (built: Jan  5 2018 15:46:26) 
 * gforth 0.7.2
 * Python 2.7.9
 * SBCL 1.2.4.debian

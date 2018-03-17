@@ -159,7 +159,7 @@ VERSIONS.rst:
 	echo -n "* " >> $@; mono --version | head -n 1 >> $@
 	echo -n "* " >> $@; go version >> $@
 	echo -n "* node " >> $@; node --version >> $@
-	echo -n "* " >> $@; lua -v 2>> $@
+	echo -n "* " >> $@; lua -v >> $@
 	echo -n "* " >> $@; perl -v | grep -v "^$$" | head -n 1 >> $@
 	echo -n "* " >> $@; scala -version 2>> $@
 	echo -n "* " >> $@; php -v | head -n 1 >> $@
