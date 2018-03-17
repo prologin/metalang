@@ -73,7 +73,7 @@ let print_expr config e f p =
     | BinOp (a, (Div as op), b) ->
       let _, priol, prior = prio_binop op in
       fprintf f "trunc(%a %a %a)" a priol print_op op b prior
-    | BinOp (a, Mod, b) -> fprintf f "math.mod(%a, %a)" a nop b nop
+    | BinOp (a, Mod, b) -> fprintf f "math.fmod(%a, %a)" a nop b nop
     | UnOp (a, Not) -> fprintf f "not(%a)" a nop
     | Tuple li -> fprintf f "table.pack(%a)" (print_list (fun f x -> x f nop) sep_c) li
     | Record li -> fprintf f "{%a}" (print_list (fun f (name, x) ->
