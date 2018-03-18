@@ -36,11 +36,11 @@ procedure show(lim : in Integer; a : in Integer) is
   n : Integer;
 begin
   nth := a;
-  t := new b (0..lim);
+  t := new b (0..lim - 1);
   for i in integer range 0..lim - 1 loop
     t(i) := i;
   end loop;
-  pris := new c (0..lim);
+  pris := new c (0..lim - 1);
   for j in integer range 0..lim - 1 loop
     pris(j) := FALSE;
   end loop;

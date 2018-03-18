@@ -23,7 +23,7 @@ type h_PTR is access h;
   num : Integer;
   f : h_PTR;
 begin
-  f := new h (0..10);
+  f := new h (0..9);
   for j in integer range 0..9 loop
     f(j) := 1;
   end loop;

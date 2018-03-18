@@ -85,11 +85,11 @@ End Function
     t2 = t3
     t.blah = t.blah + 1
     Dim len As Integer = 1
-    Dim cache0(len) As Integer
+    Dim cache0(len - 1) As Integer
     For i As Integer = 0 To len - 1
         cache0(i) = -i
     Next
-    Dim cache1(len) As Integer
+    Dim cache1(len - 1) As Integer
     For j As Integer = 0 To len - 1
         cache1(j) = j
     Next

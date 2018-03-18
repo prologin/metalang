@@ -31,7 +31,7 @@ type a_PTR is access a;
 
   t : a_PTR;
 begin
-  t := new a (0..2);
+  t := new a (0..1);
   for d in integer range 0..1 loop
     Get(t(d));
     SkipSpaces;

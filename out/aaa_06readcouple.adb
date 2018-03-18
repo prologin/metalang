@@ -44,7 +44,7 @@ begin
     PInt(b);
     PString(new char_array'( To_C("" & Character'Val(10))));
   end loop;
-  l := new d (0..10);
+  l := new d (0..9);
   for c in integer range 0..9 loop
     Get(l(c));
     SkipSpaces;

@@ -40,7 +40,7 @@ begin
   SkipSpaces;
   PInt(len);
   PString(new char_array'( To_C("=len" & Character'Val(10))));
-  tab1 := new e (0..len);
+  tab1 := new e (0..len - 1);
   for a in integer range 0..len - 1 loop
     Get(tab1(a));
     SkipSpaces;
@@ -53,9 +53,9 @@ begin
   end loop;
   Get(len);
   SkipSpaces;
-  tab2 := new f (0..len - 1);
+  tab2 := new f (0..len - 2);
   for b in integer range 0..len - 2 loop
-    c := new e (0..len);
+    c := new e (0..len - 1);
     for d in integer range 0..len - 1 loop
       Get(c(d));
       SkipSpaces;

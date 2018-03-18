@@ -27,7 +27,7 @@ type b_PTR is access b;
 
   str : b_PTR;
 begin
-  str := new b (0..12);
+  str := new b (0..11);
   for a in integer range 0..11 loop
     Get(str(a));
   end loop;

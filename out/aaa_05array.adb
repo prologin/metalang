@@ -29,7 +29,7 @@ end;
   a : c_PTR;
 begin
   j := 0;
-  a := new c (0..5);
+  a := new c (0..4);
   for i in integer range 0..4 loop
     PInt(i);
     j := j + i;

@@ -74,9 +74,9 @@ function find(len : in Integer; tab : in b_PTR) return Integer is
   tab3 : a_PTR;
   tab2 : b_PTR;
 begin
-  tab2 := new b (0..len);
+  tab2 := new b (0..len - 1);
   for i in integer range 0..len - 1 loop
-    tab3 := new a (0..i + 1);
+    tab3 := new a (0..i);
     for j in integer range 0..i loop
       tab3(j) := 0;
     end loop;
@@ -92,9 +92,9 @@ end;
 begin
   Get(len);
   SkipSpaces;
-  tab := new b (0..len);
+  tab := new b (0..len - 1);
   for i in integer range 0..len - 1 loop
-    tab2 := new a (0..i + 1);
+    tab2 := new a (0..i);
     for j in integer range 0..i loop
       Get(tmp);
       SkipSpaces;

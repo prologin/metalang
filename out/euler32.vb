@@ -43,11 +43,11 @@ Module euler32
   End Function
   Sub Main()
     Dim count As Integer = 0
-    Dim allowed(10) As Boolean
+    Dim allowed(9) As Boolean
     For i As Integer = 0 To 9
         allowed(i) = i <> 0
     Next
-    Dim counted(100000) As Boolean
+    Dim counted(99999) As Boolean
     For j As Integer = 0 To 99999
         counted(j) = false
     Next

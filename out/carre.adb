@@ -48,9 +48,9 @@ begin
   SkipSpaces;
   Get(y);
   SkipSpaces;
-  tab := new h (0..y);
+  tab := new h (0..y - 1);
   for d in integer range 0..y - 1 loop
-    e := new g (0..x);
+    e := new g (0..x - 1);
     for f in integer range 0..x - 1 loop
       Get(e(f));
       SkipSpaces;

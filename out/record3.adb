@@ -53,7 +53,7 @@ end;
   titi : Integer;
   t : a_PTR;
 begin
-  t := new a (0..4);
+  t := new a (0..3);
   for i in integer range 0..3 loop
     t(i) := mktoto(i);
   end loop;

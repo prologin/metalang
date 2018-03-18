@@ -30,9 +30,9 @@ begin
   -- normalement on doit mettre 20 mais là on se tape un overflow 
   
   n := n + 1;
-  tab := new b (0..n);
+  tab := new b (0..n - 1);
   for i in integer range 0..n - 1 loop
-    tab2 := new a (0..n);
+    tab2 := new a (0..n - 1);
     for j in integer range 0..n - 1 loop
       tab2(j) := 0;
     end loop;

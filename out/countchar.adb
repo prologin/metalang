@@ -48,7 +48,7 @@ begin
   tofind := Character'Val(0);
   Get(tofind);
   SkipSpaces;
-  tab := new a (0..len);
+  tab := new a (0..len - 1);
   for i in integer range 0..len - 1 loop
     tmp := Character'Val(0);
     Get(tmp);

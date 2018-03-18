@@ -32,7 +32,7 @@ function primesfactors(c : in Integer) return e_PTR is
   d : Integer;
 begin
   n := c;
-  tab := new e (0..n + 1);
+  tab := new e (0..n);
   for i in integer range 0..n loop
     tab(i) := 0;
   end loop;
@@ -56,7 +56,7 @@ end;
   lim : Integer;
 begin
   lim := 20;
-  o := new e (0..lim + 1);
+  o := new e (0..lim);
   for m in integer range 0..lim loop
     o(m) := 0;
   end loop;

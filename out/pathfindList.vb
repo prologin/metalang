@@ -70,7 +70,7 @@ End Function
     End If
   End Function
   Function pathfind(ByRef tab as Integer(), ByVal len as Integer) As Integer
-    Dim cache(len) As Integer
+    Dim cache(len - 1) As Integer
     For i As Integer = 0 To len - 1
         cache(i) = -1
     Next
@@ -80,7 +80,7 @@ End Function
       Dim len As Integer = 0
       len = readInt
       stdin_sep
-      Dim tab(len) As Integer
+      Dim tab(len - 1) As Integer
       For i As Integer = 0 To len - 1
           Dim tmp As Integer = 0
           tmp = readInt

@@ -47,7 +47,7 @@ function process(len : in Integer; tab : in f_PTR) return Integer is
   size : f_PTR;
   k : Integer;
 begin
-  size := new f (0..len);
+  size := new f (0..len - 1);
   for j in integer range 0..len - 1 loop
     if j = 0
     then
@@ -86,7 +86,7 @@ begin
   for i in integer range 1..n loop
     Get(len);
     SkipSpaces;
-    d := new f (0..len);
+    d := new f (0..len - 1);
     for e in integer range 0..len - 1 loop
       Get(d(e));
       SkipSpaces;

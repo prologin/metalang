@@ -83,9 +83,9 @@ end;
 begin
   Get(n);
   SkipSpaces;
-  passepartout := new d (0..n);
+  passepartout := new d (0..n - 1);
   for i in integer range 0..n - 1 loop
-    out0 := new c (0..2);
+    out0 := new c (0..1);
     for j in integer range 0..1 loop
       Get(out01);
       SkipSpaces;
@@ -95,9 +95,9 @@ begin
   end loop;
   Get(m);
   SkipSpaces;
-  serrures := new d (0..m);
+  serrures := new d (0..m - 1);
   for k in integer range 0..m - 1 loop
-    out1 := new c (0..2);
+    out1 := new c (0..1);
     for l in integer range 0..1 loop
       Get(out_0);
       SkipSpaces;

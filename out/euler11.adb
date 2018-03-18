@@ -77,7 +77,7 @@ type v_PTR is access v;
   d : tuple_int_int_PTR;
   c : tuple_int_int_PTR;
 begin
-  directions := new v (0..8);
+  directions := new v (0..7);
   for i in integer range 0..7 loop
     if i = 0
     then
@@ -141,9 +141,9 @@ begin
     end if;
   end loop;
   max0 := 0;
-  m := new u (0..20);
+  m := new u (0..19);
   for o in integer range 0..19 loop
-    p := new s (0..20);
+    p := new s (0..19);
     for q in integer range 0..19 loop
       Get(p(q));
       SkipSpaces;

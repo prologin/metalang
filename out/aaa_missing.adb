@@ -36,7 +36,7 @@ type c_PTR is access c;
 function result(len : in Integer; tab : in c_PTR) return Integer is
   tab2 : b_PTR;
 begin
-  tab2 := new b (0..len);
+  tab2 := new b (0..len - 1);
   for i in integer range 0..len - 1 loop
     tab2(i) := FALSE;
   end loop;
@@ -62,7 +62,7 @@ begin
   SkipSpaces;
   PInt(len);
   PString(new char_array'( To_C("" & Character'Val(10))));
-  tab := new c (0..len);
+  tab := new c (0..len - 1);
   for a in integer range 0..len - 1 loop
     Get(tab(a));
     SkipSpaces;

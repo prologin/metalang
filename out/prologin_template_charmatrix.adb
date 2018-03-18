@@ -57,9 +57,9 @@ begin
   SkipSpaces;
   Get(taille_y);
   SkipSpaces;
-  a := new f (0..taille_y);
+  a := new f (0..taille_y - 1);
   for b in integer range 0..taille_y - 1 loop
-    c := new e (0..taille_x);
+    c := new e (0..taille_x - 1);
     for d in integer range 0..taille_x - 1 loop
       Get(c(d));
     end loop;

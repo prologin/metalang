@@ -18,7 +18,7 @@ Module euler31
     End If
   End Function
   Sub Main()
-    Dim t(8) As Integer
+    Dim t(7) As Integer
     For i As Integer = 0 To 7
         t(i) = 0
     Next
@@ -30,9 +30,9 @@ Module euler31
     t(5) = 50
     t(6) = 100
     t(7) = 200
-    Dim cache(201)() As Integer
+    Dim cache(200)() As Integer
     For j As Integer = 0 To 200
-        Dim o(8) As Integer
+        Dim o(7) As Integer
         For k As Integer = 0 To 7
             o(k) = 0
         Next

@@ -221,9 +221,9 @@ End Function
     Return minMove
   End Function
   Function init0() As gamestate
-    Dim cases(3)() As Integer
+    Dim cases(2)() As Integer
     For i As Integer = 0 To 2
-        Dim tab(3) As Integer
+        Dim tab(2) As Integer
         For j As Integer = 0 To 2
             tab(j) = 0
         Next

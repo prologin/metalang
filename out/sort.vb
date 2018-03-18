@@ -51,7 +51,7 @@ Function readInt() As Integer
   Loop
 End Function
   Function copytab(ByRef tab as Integer(), ByVal len as Integer) As Integer()
-    Dim o(len) As Integer
+    Dim o(len - 1) As Integer
     For i As Integer = 0 To len - 1
         o(i) = tab(i)
     Next
@@ -104,7 +104,7 @@ End Function
       Dim len As Integer = 2
       len = readInt
       stdin_sep
-      Dim tab(len) As Integer
+      Dim tab(len - 1) As Integer
       For i_ As Integer = 0 To len - 1
           Dim tmp As Integer = 0
           tmp = readInt

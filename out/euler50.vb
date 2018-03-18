@@ -20,12 +20,12 @@ Module euler50
   End Function
   Sub Main()
     Dim maximumprimes As Integer = 1000001
-    Dim era(maximumprimes) As Integer
+    Dim era(maximumprimes - 1) As Integer
     For j As Integer = 0 To maximumprimes - 1
         era(j) = j
     Next
     Dim nprimes As Integer = eratostene(era, maximumprimes)
-    Dim primes(nprimes) As Integer
+    Dim primes(nprimes - 1) As Integer
     For o As Integer = 0 To nprimes - 1
         primes(o) = 0
     Next
@@ -37,7 +37,7 @@ Module euler50
         End If
     Next
     Console.Write(l & " == " & nprimes & Chr(10))
-    Dim sum(nprimes) As Integer
+    Dim sum(nprimes - 1) As Integer
     For i_ As Integer = 0 To nprimes - 1
         sum(i_) = primes(i_)
     Next

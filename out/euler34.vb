@@ -4,7 +4,7 @@ Module euler34
 
   
   Sub Main()
-    Dim f(10) As Integer
+    Dim f(9) As Integer
     For j As Integer = 0 To 9
         f(j) = 1
     Next

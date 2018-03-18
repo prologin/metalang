@@ -72,7 +72,7 @@ end;
 begin
   Get(taille_cle);
   SkipSpaces;
-  cle := new a (0..taille_cle);
+  cle := new a (0..taille_cle - 1);
   for index in integer range 0..taille_cle - 1 loop
     Get(out0);
     cle(index) := out0;
@@ -80,7 +80,7 @@ begin
   SkipSpaces;
   Get(taille);
   SkipSpaces;
-  message := new a (0..taille);
+  message := new a (0..taille - 1);
   for index2 in integer range 0..taille - 1 loop
     Get(out2);
     message(index2) := out2;

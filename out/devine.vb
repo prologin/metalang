@@ -74,7 +74,7 @@ End Function
     stdin_sep
     Dim len As Integer = readInt
     stdin_sep
-    Dim tab(len) As Integer
+    Dim tab(len - 1) As Integer
     For i As Integer = 0 To len - 1
         Dim tmp As Integer = readInt
         stdin_sep

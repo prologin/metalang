@@ -3,7 +3,7 @@ Imports System
 Module euler05
 
   Function primesfactors(ByVal n as Integer) As Integer()
-    Dim tab(n + 1) As Integer
+    Dim tab(n) As Integer
     For i As Integer = 0 To n
         tab(i) = 0
     Next
@@ -21,7 +21,7 @@ Module euler05
     End Function
     Sub Main()
       Dim lim As Integer = 20
-      Dim o(lim + 1) As Integer
+      Dim o(lim) As Integer
       For m As Integer = 0 To lim
           o(m) = 0
       Next

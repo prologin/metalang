@@ -39,7 +39,7 @@ function npi0(str : in b_PTR; len : in Integer) return Integer is
   ptrStack : Integer;
   num : Integer;
 begin
-  stack := new a (0..len);
+  stack := new a (0..len - 1);
   for i in integer range 0..len - 1 loop
     stack(i) := 0;
   end loop;
@@ -80,7 +80,7 @@ begin
   len := 0;
   Get(len);
   SkipSpaces;
-  tab := new b (0..len);
+  tab := new b (0..len - 1);
   for i in integer range 0..len - 1 loop
     tmp := Character'Val(0);
     Get(tmp);

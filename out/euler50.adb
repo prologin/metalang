@@ -61,12 +61,12 @@ end;
   era : c_PTR;
 begin
   maximumprimes := 1000001;
-  era := new c (0..maximumprimes);
+  era := new c (0..maximumprimes - 1);
   for j in integer range 0..maximumprimes - 1 loop
     era(j) := j;
   end loop;
   nprimes := eratostene(era, maximumprimes);
-  primes := new c (0..nprimes);
+  primes := new c (0..nprimes - 1);
   for o in integer range 0..nprimes - 1 loop
     primes(o) := 0;
   end loop;
@@ -82,7 +82,7 @@ begin
   PString(new char_array'( To_C(" == ")));
   PInt(nprimes);
   PString(new char_array'( To_C("" & Character'Val(10))));
-  sum := new c (0..nprimes);
+  sum := new c (0..nprimes - 1);
   for i_0 in integer range 0..nprimes - 1 loop
     sum(i_0) := primes(i_0);
   end loop;

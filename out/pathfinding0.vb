@@ -24,9 +24,9 @@ Module pathfinding0
     End If
   End Function
   Function pathfind(ByRef tab as Char()(), ByVal x as Integer, ByVal y as Integer) As Integer
-    Dim cache(y)() As Integer
+    Dim cache(y - 1)() As Integer
     For i As Integer = 0 To y - 1
-        Dim tmp(x) As Integer
+        Dim tmp(x - 1) As Integer
         For j As Integer = 0 To x - 1
             Console.Write(tab(i)(j))
             tmp(j) = -1
@@ -40,7 +40,7 @@ Module pathfinding0
       Dim x As Integer = Integer.Parse(Console.ReadLine())
       Dim y As Integer = Integer.Parse(Console.ReadLine())
       Console.Write(x & " " & y & Chr(10))
-      Dim e(y)() As Char
+      Dim e(y - 1)() As Char
       For f As Integer = 0 To y - 1
           e(f) = Console.ReadLine().ToCharArray()
       Next

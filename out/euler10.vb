@@ -22,7 +22,7 @@ Module euler10
     Dim n As Integer = 100000
     ' normalement on met 2000 000 mais là on se tape des int overflow dans plein de langages 
     
-    Dim t(n) As Integer
+    Dim t(n - 1) As Integer
     For i As Integer = 0 To n - 1
         t(i) = i
     Next

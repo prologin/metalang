@@ -81,7 +81,7 @@ End Function
   Sub Main()
     Dim taille_cle As Integer = readInt
     stdin_sep
-    Dim cle(taille_cle) As Char
+    Dim cle(taille_cle - 1) As Char
     For index As Integer = 0 To taille_cle - 1
         Dim out0 As Char = readChar
         cle(index) = out0
@@ -89,7 +89,7 @@ End Function
     stdin_sep
     Dim taille As Integer = readInt
     stdin_sep
-    Dim message(taille) As Char
+    Dim message(taille - 1) As Char
     For index2 As Integer = 0 To taille - 1
         Dim out2 As Char = readChar
         message(index2) = out2

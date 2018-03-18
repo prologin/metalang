@@ -72,11 +72,11 @@ begin
   t2 := t3;
   t.blah := t.blah + 1;
   len := 1;
-  cache0 := new a (0..len);
+  cache0 := new a (0..len - 1);
   for i in integer range 0..len - 1 loop
     cache0(i) := (-i);
   end loop;
-  cache1 := new a (0..len);
+  cache1 := new a (0..len - 1);
   for j in integer range 0..len - 1 loop
     cache1(j) := j;
   end loop;

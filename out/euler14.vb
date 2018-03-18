@@ -22,7 +22,7 @@ Module euler14
     End If
   End Function
   Sub Main()
-    Dim m(1000000) As Integer
+    Dim m(999999) As Integer
     For j As Integer = 0 To 999999
         m(j) = 0
     Next

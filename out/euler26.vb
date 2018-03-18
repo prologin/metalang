@@ -18,7 +18,7 @@ Module euler26
     Return 0
   End Function
   Sub Main()
-    Dim t(1000) As Integer
+    Dim t(999) As Integer
     For j As Integer = 0 To 999
         t(j) = 0
     Next

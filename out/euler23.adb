@@ -89,7 +89,7 @@ function sumdiv(nprimes : in Integer; primes : in a_PTR; n : in Integer) return 
   t : a_PTR;
   max0 : Integer;
 begin
-  t := new a (0..n + 1);
+  t := new a (0..n);
   for i in integer range 0..n loop
     t(i) := 0;
   end loop;
@@ -111,12 +111,12 @@ type e_PTR is access e;
   abondant : e_PTR;
 begin
   maximumprimes := 30001;
-  era := new a (0..maximumprimes);
+  era := new a (0..maximumprimes - 1);
   for s in integer range 0..maximumprimes - 1 loop
     era(s) := s;
   end loop;
   nprimes := eratostene(era, maximumprimes);
-  primes := new a (0..nprimes);
+  primes := new a (0..nprimes - 1);
   for t in integer range 0..nprimes - 1 loop
     primes(t) := 0;
   end loop;
@@ -131,11 +131,11 @@ begin
   n := 100;
   -- 28124 ça prend trop de temps mais on arrive a passer le test 
   
-  abondant := new e (0..n + 1);
+  abondant := new e (0..n);
   for p in integer range 0..n loop
     abondant(p) := FALSE;
   end loop;
-  summable := new e (0..n + 1);
+  summable := new e (0..n);
   for q in integer range 0..n loop
     summable(q) := FALSE;
   end loop;

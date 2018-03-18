@@ -68,7 +68,7 @@ End Function
     Dim len As Integer = 0
     len = readInt
     stdin_sep
-    Dim tab(len) As Integer
+    Dim tab(len - 1) As Integer
     For i As Integer = 0 To len - 1
         Dim tmp As Integer = 0
         tmp = readInt

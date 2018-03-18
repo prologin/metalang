@@ -17,7 +17,7 @@ Module prologin_template_charmatrix
   Sub Main()
     Dim taille_x As Integer = Integer.Parse(Console.ReadLine())
     Dim taille_y As Integer = Integer.Parse(Console.ReadLine())
-    Dim a(taille_y)() As Char
+    Dim a(taille_y - 1)() As Char
     For b As Integer = 0 To taille_y - 1
         a(b) = Console.ReadLine().ToCharArray()
     Next

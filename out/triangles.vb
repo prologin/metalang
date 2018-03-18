@@ -80,9 +80,9 @@ End Function
     Return result
   End Function
   Function find(ByVal len as Integer, ByRef tab as Integer()()) As Integer
-    Dim tab2(len)() As Integer
+    Dim tab2(len - 1)() As Integer
     For i As Integer = 0 To len - 1
-        Dim tab3(i + 1) As Integer
+        Dim tab3(i) As Integer
         For j As Integer = 0 To i
             tab3(j) = 0
         Next
@@ -93,9 +93,9 @@ End Function
     Sub Main()
       Dim len As Integer = readInt
       stdin_sep
-      Dim tab(len)() As Integer
+      Dim tab(len - 1)() As Integer
       For i As Integer = 0 To len - 1
-          Dim tab2(i + 1) As Integer
+          Dim tab2(i) As Integer
           For j As Integer = 0 To i
               Dim tmp As Integer = readInt
               stdin_sep

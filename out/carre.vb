@@ -7,7 +7,7 @@ Module carre
   Sub Main()
     Dim x As Integer = Integer.Parse(Console.ReadLine())
     Dim y As Integer = Integer.Parse(Console.ReadLine())
-    Dim tab(y)() As Integer
+    Dim tab(y - 1)() As Integer
     For d As Integer = 0 To y - 1
         tab(d) = Array(Of String).ConvertAll(Of String, Integer)(Console.ReadLine().Split(" ".ToCharArray()), New Converter(Of String, Integer)(AddressOf Integer.Parse))
     Next

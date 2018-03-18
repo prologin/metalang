@@ -49,7 +49,7 @@ end;
   n : Integer;
 begin
   n := 10001;
-  t := new a (0..n);
+  t := new a (0..n - 1);
   for i in integer range 0..n - 1 loop
     t(i) := 2;
   end loop;

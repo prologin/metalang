@@ -25,7 +25,7 @@ type a_PTR is access a;
 begin
   input := ' ';
   current_pos := 500;
-  mem := new a (0..1000);
+  mem := new a (0..999);
   for i in integer range 0..999 loop
     mem(i) := 0;
   end loop;

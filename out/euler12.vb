@@ -31,12 +31,12 @@ Module euler12
   End Function
   Function find(ByVal ndiv2 as Integer) As Integer
     Dim maximumprimes As Integer = 110
-    Dim era(maximumprimes) As Integer
+    Dim era(maximumprimes - 1) As Integer
     For j As Integer = 0 To maximumprimes - 1
         era(j) = j
     Next
     Dim nprimes As Integer = eratostene(era, maximumprimes)
-    Dim primes(nprimes) As Integer
+    Dim primes(nprimes - 1) As Integer
     For o As Integer = 0 To nprimes - 1
         primes(o) = 0
     Next
@@ -48,7 +48,7 @@ Module euler12
         End If
     Next
     For n As Integer = 1 To 10000
-        Dim primesFactors(n + 2) As Integer
+        Dim primesFactors(n + 1) As Integer
         For m As Integer = 0 To n + 1
             primesFactors(m) = 0
         Next

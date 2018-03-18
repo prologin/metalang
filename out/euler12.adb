@@ -73,12 +73,12 @@ function find(ndiv2 : in Integer) return Integer is
   era : c_PTR;
 begin
   maximumprimes := 110;
-  era := new c (0..maximumprimes);
+  era := new c (0..maximumprimes - 1);
   for j in integer range 0..maximumprimes - 1 loop
     era(j) := j;
   end loop;
   nprimes := eratostene(era, maximumprimes);
-  primes := new c (0..nprimes);
+  primes := new c (0..nprimes - 1);
   for o in integer range 0..nprimes - 1 loop
     primes(o) := 0;
   end loop;
@@ -91,7 +91,7 @@ begin
     end if;
   end loop;
   for n in integer range 1..10000 loop
-    primesFactors := new c (0..n + 2);
+    primesFactors := new c (0..n + 1);
     for m in integer range 0..n + 1 loop
       primesFactors(m) := 0;
     end loop;

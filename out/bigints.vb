@@ -42,7 +42,7 @@ End Sub
     Public bigint_chiffres As Integer()
   End Class
   Function read_bigint(ByVal len as Integer) As bigint
-    Dim chiffres(len) As Integer
+    Dim chiffres(len - 1) As Integer
     For j As Integer = 0 To len - 1
         Dim c As Char = readChar
         chiffres(j) = Asc(c)
@@ -115,7 +115,7 @@ End Sub
       
       Dim len As Integer = Math.Max(a.bigint_len, b.bigint_len) + 1
       Dim retenue As Integer = 0
-      Dim chiffres(len) As Integer
+      Dim chiffres(len - 1) As Integer
       For i As Integer = 0 To len - 1
           Dim tmp As Integer = retenue
           If i < a.bigint_len Then
@@ -143,7 +143,7 @@ End Sub
         
         Dim len As Integer = a.bigint_len
         Dim retenue As Integer = 0
-        Dim chiffres(len) As Integer
+        Dim chiffres(len - 1) As Integer
         For i As Integer = 0 To len - 1
             Dim tmp As Integer = retenue + a.bigint_chiffres(i)
             If i < b.bigint_len Then
@@ -207,7 +207,7 @@ End Sub
           'D'ou le nom de la fonction. 
           
           Dim len As Integer = a.bigint_len + b.bigint_len + 1
-          Dim chiffres(len) As Integer
+          Dim chiffres(len - 1) As Integer
           For k As Integer = 0 To len - 1
               chiffres(k) = 0
           Next
@@ -245,7 +245,7 @@ End Sub
             Return o
           End Function
           Function bigint_shift(ByRef a as bigint, ByVal i as Integer) As bigint
-            Dim chiffres(a.bigint_len + i) As Integer
+            Dim chiffres(a.bigint_len + i - 1) As Integer
             For k As Integer = 0 To a.bigint_len + i - 1
                 If k >= i Then
                     chiffres(k) = a.bigint_chiffres(k - i)
@@ -302,7 +302,7 @@ End Sub
               If i = 0 Then
                   size = 0
               End If
-              Dim t(size) As Integer
+              Dim t(size - 1) As Integer
               For j As Integer = 0 To size - 1
                   t(j) = 0
               Next
@@ -398,15 +398,15 @@ End Sub
               Function euler29() As Integer
                 Dim maxA As Integer = 5
                 Dim maxB As Integer = 5
-                Dim a_bigint(maxA + 1) As bigint
+                Dim a_bigint(maxA) As bigint
                 For j As Integer = 0 To maxA
                     a_bigint(j) = bigint_of_int(j * j)
                 Next
-                Dim a0_bigint(maxA + 1) As bigint
+                Dim a0_bigint(maxA) As bigint
                 For j2 As Integer = 0 To maxA
                     a0_bigint(j2) = bigint_of_int(j2)
                 Next
-                Dim b(maxA + 1) As Integer
+                Dim b(maxA) As Integer
                 For k As Integer = 0 To maxA
                     b(k) = 2
                 Next

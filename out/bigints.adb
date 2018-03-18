@@ -62,7 +62,7 @@ function read_bigint(len : in Integer) return bigint_PTR is
   chiffres : r_PTR;
   c : Character;
 begin
-  chiffres := new r (0..len);
+  chiffres := new r (0..len - 1);
   for j in integer range 0..len - 1 loop
     Get(c);
     chiffres(j) := Character'Pos(c);
@@ -164,7 +164,7 @@ begin
   
   len := max2_0(a.bigint_len, b.bigint_len) + 1;
   retenue := 0;
-  chiffres := new r (0..len);
+  chiffres := new r (0..len - 1);
   for i in integer range 0..len - 1 loop
     tmp := retenue;
     if i < a.bigint_len
@@ -200,7 +200,7 @@ begin
   
   len := a.bigint_len;
   retenue := 0;
-  chiffres := new r (0..len);
+  chiffres := new r (0..len - 1);
   for i in integer range 0..len - 1 loop
     tmp := retenue + a.bigint_chiffres(i);
     if i < b.bigint_len
@@ -282,7 +282,7 @@ begin
   --D'ou le nom de la fonction. 
   
   len := a.bigint_len + b.bigint_len + 1;
-  chiffres := new r (0..len);
+  chiffres := new r (0..len - 1);
   for k in integer range 0..len - 1 loop
     chiffres(k) := 0;
   end loop;
@@ -327,7 +327,7 @@ function bigint_shift(a : in bigint_PTR; i : in Integer) return bigint_PTR is
   p : bigint_PTR;
   chiffres : r_PTR;
 begin
-  chiffres := new r (0..a.bigint_len + i);
+  chiffres := new r (0..a.bigint_len + i - 1);
   for k in integer range 0..a.bigint_len + i - 1 loop
     if k >= i
     then
@@ -415,7 +415,7 @@ begin
   then
     size := 0;
   end if;
-  t := new r (0..size);
+  t := new r (0..size - 1);
   for j in integer range 0..size - 1 loop
     t(j) := 0;
   end loop;
@@ -554,15 +554,15 @@ function euler29 return Integer is
 begin
   maxA := 5;
   maxB := 5;
-  a_bigint := new x (0..maxA + 1);
+  a_bigint := new x (0..maxA);
   for j in integer range 0..maxA loop
     a_bigint(j) := bigint_of_int(j * j);
   end loop;
-  a0_bigint := new x (0..maxA + 1);
+  a0_bigint := new x (0..maxA);
   for j2 in integer range 0..maxA loop
     a0_bigint(j2) := bigint_of_int(j2);
   end loop;
-  b := new r (0..maxA + 1);
+  b := new r (0..maxA);
   for k in integer range 0..maxA loop
     b(k) := 2;
   end loop;

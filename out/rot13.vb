@@ -62,7 +62,7 @@ End Function
   Sub Main()
     Dim strlen As Integer = readInt
     stdin_sep
-    Dim tab4(strlen) As Char
+    Dim tab4(strlen - 1) As Char
     For toto As Integer = 0 To strlen - 1
         Dim tmpc As Char = readChar
         Dim c As Integer = Asc(tmpc)

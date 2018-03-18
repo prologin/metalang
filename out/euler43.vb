@@ -34,7 +34,7 @@ Module euler43
     '(d5 * 2 + d6 * 3 + d7) % 7 == 0
     '
     
-    Dim allowed(10) As Boolean
+    Dim allowed(9) As Boolean
     For i As Integer = 0 To 9
         allowed(i) = true
     Next

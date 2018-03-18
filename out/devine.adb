@@ -59,7 +59,7 @@ begin
   SkipSpaces;
   Get(len);
   SkipSpaces;
-  tab := new a (0..len);
+  tab := new a (0..len - 1);
   for i in integer range 0..len - 1 loop
     Get(tmp);
     SkipSpaces;

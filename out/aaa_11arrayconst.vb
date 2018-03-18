@@ -9,7 +9,7 @@ Module aaa_11arrayconst
     Console.Write(Chr(10))
   End Sub
   Sub Main()
-    Dim t(5) As Integer
+    Dim t(4) As Integer
     For i As Integer = 0 To 4
         t(i) = 1
     Next

@@ -35,7 +35,7 @@ type a_PTR is access a;
 begin
   Get(strlen);
   SkipSpaces;
-  tab4 := new a (0..strlen);
+  tab4 := new a (0..strlen - 1);
   for toto in integer range 0..strlen - 1 loop
     Get(tmpc);
     c := Character'Pos(tmpc);

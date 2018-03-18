@@ -32,7 +32,7 @@ begin
   --  e ^ 5
   --
   
-  p := new g (0..10);
+  p := new g (0..9);
   for i in integer range 0..9 loop
     p(i) := i * i * i * i * i;
   end loop;

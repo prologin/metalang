@@ -78,9 +78,9 @@ function pathfind(tab : in h_PTR; x : in Integer; y : in Integer) return Integer
   tmp : e_PTR;
   cache : f_PTR;
 begin
-  cache := new f (0..y);
+  cache := new f (0..y - 1);
   for i in integer range 0..y - 1 loop
-    tmp := new e (0..x);
+    tmp := new e (0..x - 1);
     for j in integer range 0..x - 1 loop
       tmp(j) := (-1);
     end loop;
@@ -100,9 +100,9 @@ begin
   SkipSpaces;
   Get(y);
   SkipSpaces;
-  tab := new h (0..y);
+  tab := new h (0..y - 1);
   for i in integer range 0..y - 1 loop
-    tab2 := new g (0..x);
+    tab2 := new g (0..x - 1);
     for j in integer range 0..x - 1 loop
       tmp := Character'Val(0);
       Get(tmp);

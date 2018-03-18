@@ -52,7 +52,7 @@ begin
   --(d5 * 2 + d6 * 3 + d7) % 7 == 0
   --
   
-  allowed := new a (0..10);
+  allowed := new a (0..9);
   for i in integer range 0..9 loop
     allowed(i) := TRUE;
   end loop;

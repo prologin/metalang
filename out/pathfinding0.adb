@@ -86,9 +86,9 @@ function pathfind(tab : in o_PTR; x : in Integer; y : in Integer) return Integer
   tmp : k_PTR;
   cache : l_PTR;
 begin
-  cache := new l (0..y);
+  cache := new l (0..y - 1);
   for i in integer range 0..y - 1 loop
-    tmp := new k (0..x);
+    tmp := new k (0..x - 1);
     for j in integer range 0..x - 1 loop
       PChar(tab(i)(j));
       tmp(j) := (-1);
@@ -114,9 +114,9 @@ begin
   PString(new char_array'( To_C(" ")));
   PInt(y);
   PString(new char_array'( To_C("" & Character'Val(10))));
-  e := new o (0..y);
+  e := new o (0..y - 1);
   for f in integer range 0..y - 1 loop
-    g := new m (0..x);
+    g := new m (0..x - 1);
     for h in integer range 0..x - 1 loop
       Get(g(h));
     end loop;

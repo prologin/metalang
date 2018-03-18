@@ -16,7 +16,7 @@ Module longest_increasing_subsequence
     End If
   End Function
   Function process(ByVal len as Integer, ByRef tab as Integer()) As Integer
-    Dim size(len) As Integer
+    Dim size(len - 1) As Integer
     For j As Integer = 0 To len - 1
         If j = 0 Then
             size(j) = 0

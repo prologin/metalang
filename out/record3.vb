@@ -71,7 +71,7 @@ End Function
     Return out0
   End Function
   Sub Main()
-    Dim t(4) As toto
+    Dim t(3) As toto
     For i As Integer = 0 To 3
         t(i) = mktoto(i)
     Next

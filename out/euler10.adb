@@ -44,7 +44,7 @@ begin
   n := 100000;
   -- normalement on met 2000 000 mais là on se tape des int overflow dans plein de langages 
   
-  t := new a (0..n);
+  t := new a (0..n - 1);
   for i in integer range 0..n - 1 loop
     t(i) := i;
   end loop;

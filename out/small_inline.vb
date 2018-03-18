@@ -52,7 +52,7 @@ Function readInt() As Integer
 End Function
   
   Sub Main()
-    Dim t(2) As Integer
+    Dim t(1) As Integer
     For d As Integer = 0 To 1
         t(d) = readInt
         stdin_sep

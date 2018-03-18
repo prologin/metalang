@@ -69,11 +69,11 @@ end;
   allowed : f_PTR;
 begin
   count := 0;
-  allowed := new f (0..10);
+  allowed := new f (0..9);
   for i in integer range 0..9 loop
     allowed(i) := i /= 0;
   end loop;
-  counted := new f (0..100000);
+  counted := new f (0..99999);
   for j in integer range 0..99999 loop
     counted(j) := FALSE;
   end loop;

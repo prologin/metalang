@@ -89,7 +89,7 @@ function sumdiv(nprimes : in Integer; primes : in a_PTR; n : in Integer) return 
   t : a_PTR;
   max0 : Integer;
 begin
-  t := new a (0..n + 1);
+  t := new a (0..n);
   for i in integer range 0..n loop
     t(i) := 0;
   end loop;
@@ -107,12 +107,12 @@ end;
   era : a_PTR;
 begin
   maximumprimes := 1001;
-  era := new a (0..maximumprimes);
+  era := new a (0..maximumprimes - 1);
   for j in integer range 0..maximumprimes - 1 loop
     era(j) := j;
   end loop;
   nprimes := eratostene(era, maximumprimes);
-  primes := new a (0..nprimes);
+  primes := new a (0..nprimes - 1);
   for o in integer range 0..nprimes - 1 loop
     primes(o) := 0;
   end loop;

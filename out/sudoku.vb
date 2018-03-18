@@ -53,7 +53,7 @@ End Function
   ' lit un sudoku sur l'entrée standard 
   
   Function read_sudoku() As Integer()
-    Dim out0(9 * 9) As Integer
+    Dim out0(9 * 9 - 1) As Integer
     For i As Integer = 0 To 9 * 9 - 1
         Dim k As Integer = readInt
         stdin_sep

@@ -24,7 +24,7 @@ Module euler07
   End Function
   Sub Main()
     Dim n As Integer = 10001
-    Dim t(n) As Integer
+    Dim t(n - 1) As Integer
     For i As Integer = 0 To n - 1
         t(i) = 2
     Next

@@ -13,7 +13,7 @@ Module euler30
     '  e ^ 5
     '
     
-    Dim p(10) As Integer
+    Dim p(9) As Integer
     For i As Integer = 0 To 9
         p(i) = i * i * i * i * i
     Next

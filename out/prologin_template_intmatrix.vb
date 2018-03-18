@@ -15,7 +15,7 @@ Module prologin_template_intmatrix
   Sub Main()
     Dim taille_x As Integer = Integer.Parse(Console.ReadLine())
     Dim taille_y As Integer = Integer.Parse(Console.ReadLine())
-    Dim tableau(taille_y)() As Integer
+    Dim tableau(taille_y - 1)() As Integer
     For a As Integer = 0 To taille_y - 1
         tableau(a) = Array(Of String).ConvertAll(Of String, Integer)(Console.ReadLine().Split(" ".ToCharArray()), New Converter(Of String, Integer)(AddressOf Integer.Parse))
     Next

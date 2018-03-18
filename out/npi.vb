@@ -63,7 +63,7 @@ End Function
   '
   
   Function npi0(ByRef str as Char(), ByVal len as Integer) As Integer
-    Dim stack(len) As Integer
+    Dim stack(len - 1) As Integer
     For i As Integer = 0 To len - 1
         stack(i) = 0
     Next
@@ -92,7 +92,7 @@ End Function
       Dim len As Integer = 0
       len = readInt
       stdin_sep
-      Dim tab(len) As Char
+      Dim tab(len - 1) As Char
       For i As Integer = 0 To len - 1
           Dim tmp As Char = Chr(0)
           tmp = readChar

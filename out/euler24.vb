@@ -10,11 +10,11 @@ Module euler24
     Return prod
   End Function
   Sub show(ByVal lim as Integer, ByVal nth as Integer)
-    Dim t(lim) As Integer
+    Dim t(lim - 1) As Integer
     For i As Integer = 0 To lim - 1
         t(i) = i
     Next
-    Dim pris(lim) As Boolean
+    Dim pris(lim - 1) As Boolean
     For j As Integer = 0 To lim - 1
         pris(j) = false
     Next

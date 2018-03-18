@@ -50,9 +50,9 @@ begin
   SkipSpaces;
   Get(taille_y);
   SkipSpaces;
-  tableau := new e (0..taille_y);
+  tableau := new e (0..taille_y - 1);
   for a in integer range 0..taille_y - 1 loop
-    b := new d (0..taille_x);
+    b := new d (0..taille_x - 1);
     for c in integer range 0..taille_x - 1 loop
       Get(b(c));
       SkipSpaces;

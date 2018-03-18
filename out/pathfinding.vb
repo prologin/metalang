@@ -76,9 +76,9 @@ End Function
     End If
   End Function
   Function pathfind(ByRef tab as Char()(), ByVal x as Integer, ByVal y as Integer) As Integer
-    Dim cache(y)() As Integer
+    Dim cache(y - 1)() As Integer
     For i As Integer = 0 To y - 1
-        Dim tmp(x) As Integer
+        Dim tmp(x - 1) As Integer
         For j As Integer = 0 To x - 1
             tmp(j) = -1
         Next
@@ -91,9 +91,9 @@ End Function
       stdin_sep
       Dim y As Integer = readInt
       stdin_sep
-      Dim tab(y)() As Char
+      Dim tab(y - 1)() As Char
       For i As Integer = 0 To y - 1
-          Dim tab2(x) As Char
+          Dim tab2(x - 1) As Char
           For j As Integer = 0 To x - 1
               Dim tmp As Char = Chr(0)
               tmp = readChar

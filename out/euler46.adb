@@ -50,12 +50,12 @@ type b_PTR is access b;
   canbe : b_PTR;
 begin
   maximumprimes := 6000;
-  era := new a (0..maximumprimes);
+  era := new a (0..maximumprimes - 1);
   for j_0 in integer range 0..maximumprimes - 1 loop
     era(j_0) := j_0;
   end loop;
   nprimes := eratostene(era, maximumprimes);
-  primes := new a (0..nprimes);
+  primes := new a (0..nprimes - 1);
   for o in integer range 0..nprimes - 1 loop
     primes(o) := 0;
   end loop;
@@ -71,7 +71,7 @@ begin
   PString(new char_array'( To_C(" == ")));
   PInt(nprimes);
   PString(new char_array'( To_C("" & Character'Val(10))));
-  canbe := new b (0..maximumprimes);
+  canbe := new b (0..maximumprimes - 1);
   for i_0 in integer range 0..maximumprimes - 1 loop
     canbe(i_0) := FALSE;
   end loop;

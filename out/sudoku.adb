@@ -33,7 +33,7 @@ function read_sudoku return a_PTR is
   out0 : a_PTR;
   k : Integer;
 begin
-  out0 := new a (0..9 * 9);
+  out0 := new a (0..9 * 9 - 1);
   for i in integer range 0..9 * 9 - 1 loop
     Get(k);
     SkipSpaces;

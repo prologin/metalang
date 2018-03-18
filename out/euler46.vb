@@ -20,12 +20,12 @@ Module euler46
   End Function
   Sub Main()
     Dim maximumprimes As Integer = 6000
-    Dim era(maximumprimes) As Integer
+    Dim era(maximumprimes - 1) As Integer
     For j_ As Integer = 0 To maximumprimes - 1
         era(j_) = j_
     Next
     Dim nprimes As Integer = eratostene(era, maximumprimes)
-    Dim primes(nprimes) As Integer
+    Dim primes(nprimes - 1) As Integer
     For o As Integer = 0 To nprimes - 1
         primes(o) = 0
     Next
@@ -37,7 +37,7 @@ Module euler46
         End If
     Next
     Console.Write(l & " == " & nprimes & Chr(10))
-    Dim canbe(maximumprimes) As Boolean
+    Dim canbe(maximumprimes - 1) As Boolean
     For i_ As Integer = 0 To maximumprimes - 1
         canbe(i_) = false
     Next

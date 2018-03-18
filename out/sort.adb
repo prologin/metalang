@@ -30,7 +30,7 @@ type a_PTR is access a;
 function copytab(tab : in a_PTR; len : in Integer) return a_PTR is
   o : a_PTR;
 begin
-  o := new a (0..len);
+  o := new a (0..len - 1);
   for i in integer range 0..len - 1 loop
     o(i) := tab(i);
   end loop;
@@ -103,7 +103,7 @@ begin
   len := 2;
   Get(len);
   SkipSpaces;
-  tab := new a (0..len);
+  tab := new a (0..len - 1);
   for i_0 in integer range 0..len - 1 loop
     tmp := 0;
     Get(tmp);

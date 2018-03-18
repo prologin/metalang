@@ -48,7 +48,7 @@ end;
 begin
   Get(taille);
   SkipSpaces;
-  tableau := new b (0..taille);
+  tableau := new b (0..taille - 1);
   for a in integer range 0..taille - 1 loop
     Get(tableau(a));
   end loop;

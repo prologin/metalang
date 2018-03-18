@@ -40,14 +40,14 @@ Module euler27
   End Function
   Sub Main()
     Dim maximumprimes As Integer = 1000
-    Dim era(maximumprimes) As Integer
+    Dim era(maximumprimes - 1) As Integer
     For j As Integer = 0 To maximumprimes - 1
         era(j) = j
     Next
     Dim result As Integer = 0
     Dim max0 As Integer = 0
     Dim nprimes As Integer = eratostene(era, maximumprimes)
-    Dim primes(nprimes) As Integer
+    Dim primes(nprimes - 1) As Integer
     For o As Integer = 0 To nprimes - 1
         primes(o) = 0
     Next

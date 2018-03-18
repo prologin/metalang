@@ -38,7 +38,7 @@ type g_PTR is access g;
   c : Character;
 begin
   i := 1;
-  last := new g (0..5);
+  last := new g (0..4);
   for j in integer range 0..4 loop
     Get(c);
     d := Character'Pos(c) - Character'Pos('0');

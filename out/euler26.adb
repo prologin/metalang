@@ -45,7 +45,7 @@ end;
   mi : Integer;
   m : Integer;
 begin
-  t := new e (0..1000);
+  t := new e (0..999);
   for j in integer range 0..999 loop
     t(j) := 0;
   end loop;

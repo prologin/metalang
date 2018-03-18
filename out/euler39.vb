@@ -4,7 +4,7 @@ Module euler39
 
   
   Sub Main()
-    Dim t(1001) As Integer
+    Dim t(1000) As Integer
     For i As Integer = 0 To 1000
         t(i) = 0
     Next

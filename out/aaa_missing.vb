@@ -8,7 +8,7 @@ Module aaa_missing
   '
   
   Function result(ByVal len as Integer, ByRef tab as Integer()) As Integer
-    Dim tab2(len) As Boolean
+    Dim tab2(len - 1) As Boolean
     For i As Integer = 0 To len - 1
         tab2(i) = false
     Next

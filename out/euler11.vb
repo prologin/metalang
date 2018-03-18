@@ -17,7 +17,7 @@ Module euler11
     Public tuple_int_int_field_1 As Integer
   End Class
   Sub Main()
-    Dim directions(8) As tuple_int_int
+    Dim directions(7) As tuple_int_int
     For i As Integer = 0 To 7
         If i = 0 Then
             Dim c As tuple_int_int = new tuple_int_int()
@@ -62,7 +62,7 @@ Module euler11
         End If
     Next
     Dim max0 As Integer = 0
-    Dim m(20)() As Integer
+    Dim m(19)() As Integer
     For o As Integer = 0 To 19
         m(o) = Array(Of String).ConvertAll(Of String, Integer)(Console.ReadLine().Split(" ".ToCharArray()), New Converter(Of String, Integer)(AddressOf Integer.Parse))
     Next

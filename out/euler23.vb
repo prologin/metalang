@@ -52,7 +52,7 @@ Module euler23
     End If
   End Function
   Function sumdiv(ByVal nprimes as Integer, ByRef primes as Integer(), ByVal n as Integer) As Integer
-    Dim t(n + 1) As Integer
+    Dim t(n) As Integer
     For i As Integer = 0 To n
         t(i) = 0
     Next
@@ -61,12 +61,12 @@ Module euler23
     End Function
     Sub Main()
       Dim maximumprimes As Integer = 30001
-      Dim era(maximumprimes) As Integer
+      Dim era(maximumprimes - 1) As Integer
       For s As Integer = 0 To maximumprimes - 1
           era(s) = s
       Next
       Dim nprimes As Integer = eratostene(era, maximumprimes)
-      Dim primes(nprimes) As Integer
+      Dim primes(nprimes - 1) As Integer
       For t As Integer = 0 To nprimes - 1
           primes(t) = 0
       Next
@@ -80,11 +80,11 @@ Module euler23
       Dim n As Integer = 100
       ' 28124 ça prend trop de temps mais on arrive a passer le test 
       
-      Dim abondant(n + 1) As Boolean
+      Dim abondant(n) As Boolean
       For p As Integer = 0 To n
           abondant(p) = false
       Next
-      Dim summable(n + 1) As Boolean
+      Dim summable(n) As Boolean
       For q As Integer = 0 To n
           summable(q) = false
       Next

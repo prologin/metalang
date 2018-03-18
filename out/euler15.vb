@@ -8,9 +8,9 @@ Module euler15
     ' normalement on doit mettre 20 mais là on se tape un overflow 
     
     n = n + 1
-    Dim tab(n)() As Integer
+    Dim tab(n - 1)() As Integer
     For i As Integer = 0 To n - 1
-        Dim tab2(n) As Integer
+        Dim tab2(n - 1) As Integer
         For j As Integer = 0 To n - 1
             tab2(j) = 0
         Next

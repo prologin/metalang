@@ -268,9 +268,9 @@ function init0 return gamestate_PTR is
   cases : f_PTR;
   a : gamestate_PTR;
 begin
-  cases := new f (0..3);
+  cases := new f (0..2);
   for i in integer range 0..2 loop
-    tab := new e (0..3);
+    tab := new e (0..2);
     for j in integer range 0..2 loop
       tab(j) := 0;
     end loop;

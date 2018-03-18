@@ -54,7 +54,7 @@ end;
 function pathfind(tab : in a_PTR; len : in Integer) return Integer is
   cache : a_PTR;
 begin
-  cache := new a (0..len);
+  cache := new a (0..len - 1);
   for i in integer range 0..len - 1 loop
     cache(i) := (-1);
   end loop;
@@ -69,7 +69,7 @@ begin
   len := 0;
   Get(len);
   SkipSpaces;
-  tab := new a (0..len);
+  tab := new a (0..len - 1);
   for i in integer range 0..len - 1 loop
     tmp := 0;
     Get(tmp);

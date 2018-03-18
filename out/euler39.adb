@@ -20,7 +20,7 @@ type d_PTR is access d;
   c2 : Integer;
   c : Integer;
 begin
-  t := new d (0..1001);
+  t := new d (0..1000);
   for i in integer range 0..1000 loop
     t(i) := 0;
   end loop;

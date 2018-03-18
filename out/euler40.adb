@@ -50,7 +50,7 @@ end;
   puiss : Integer;
   out0 : Integer;
 begin
-  t := new c (0..9);
+  t := new c (0..8);
   for i in integer range 0..8 loop
     t(i) := exp0(10, i) - exp0(10, i - 1);
   end loop;

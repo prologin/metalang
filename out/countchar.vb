@@ -71,7 +71,7 @@ End Function
     Dim tofind As Char = Chr(0)
     tofind = readChar
     stdin_sep
-    Dim tab(len) As Char
+    Dim tab(len - 1) As Char
     For i As Integer = 0 To len - 1
         Dim tmp As Char = Chr(0)
         tmp = readChar

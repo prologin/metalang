@@ -57,12 +57,12 @@ begin
   SkipSpaces;
   Get(taille2);
   SkipSpaces;
-  tableau1 := new c (0..taille1);
+  tableau1 := new c (0..taille1 - 1);
   for a in integer range 0..taille1 - 1 loop
     Get(tableau1(a));
   end loop;
   SkipSpaces;
-  tableau2 := new c (0..taille2);
+  tableau2 := new c (0..taille2 - 1);
   for b in integer range 0..taille2 - 1 loop
     Get(tableau2(b));
   end loop;

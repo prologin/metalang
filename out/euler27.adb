@@ -79,14 +79,14 @@ end;
   era : c_PTR;
 begin
   maximumprimes := 1000;
-  era := new c (0..maximumprimes);
+  era := new c (0..maximumprimes - 1);
   for j in integer range 0..maximumprimes - 1 loop
     era(j) := j;
   end loop;
   result := 0;
   max0 := 0;
   nprimes := eratostene(era, maximumprimes);
-  primes := new c (0..nprimes);
+  primes := new c (0..nprimes - 1);
   for o in integer range 0..nprimes - 1 loop
     primes(o) := 0;
   end loop;
