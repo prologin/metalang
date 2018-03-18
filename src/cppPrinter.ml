@@ -178,7 +178,7 @@ let cppPrinter typerEnv f (prog: Utils.prog) =
     let instructions macros f li =
       let macros = StringMap.map (fun (ty, params, li) ->
           ty, params,
-          try List.assoc "cpp" li
+          try List.assoc "cc" li
           with Not_found -> List.assoc "" li) macros
       in print_list (fun f t -> print_instr true cc_print_mut typerEnv macros t f) sep_nl f li in
 let macros, items = List.fold_left

@@ -12,7 +12,8 @@ macro int count_(array<auto> tab)
   csharp do "($tab).Length"
   fsharp do "($tab).Length"
   py do "len($tab)"
-  cpp do "($tab)->size()"
+  cc do "($tab)->size()"
+  cpp do "($tab).size()"
   php do "count($tab)"
   pl do "0+@$tab"
   rkt do "vector-length $tab"
@@ -57,6 +58,7 @@ macro int sqrt_(int c)
   rkt do "integer-sqrt $c"
   pl do "int(sqrt($c))"
   c do "(int)sqrt($c)"
+  cc do "(int)sqrt($c)"
   cpp do "(int)sqrt($c)"
   objc do "(int)sqrt($c)"
   ada do "Integer(Float'Truncation(Ada.Numerics.Elementary_Functions.Sqrt(Float($c))))"
@@ -87,11 +89,11 @@ macro char char_of_int(int c)
   php do "chr($c)"
   go do "(byte)($c)"
   clisp do "(code-char $c)"
+  cc do "(char)($c)"
   cpp do "(char)($c)"
   rkt do "integer->char $c"
   pl do "chr($c)"
   c do "(char)($c)"
-  cpp do "(char)($c)"
   objc do "(char)($c)"
   ada do "Character'Val($c)"
   vb do "Chr($c)"
@@ -118,6 +120,7 @@ macro int int_of_char(char c)
   rkt do "char->integer $c"
   pl do "ord($c)"
   c do "(int)($c)"
+  cc do "(int)($c)"
   cpp do "(int)($c)"
   objc do "(int)($c)"
   ada do "Character'Pos($c)"
@@ -201,6 +204,7 @@ macro int native_macro_max2(int a, int b)
   hs_pure do "max $a $b"
   fs do "$a $b max"
   st do "(($a) max: ($b))"
+  cc do "std::max($a, $b)"
   cpp do "std::max($a, $b)"
   * do "max($a, $b)"
 end
@@ -264,6 +268,7 @@ macro int native_macro_min2(int a, int b)
   hs_pure do "min $a $b"
   fs do "$a $b min"
   st do "(($a) min: ($b))"
+  cc do "std::min($a, $b)"
   cpp do "std::min($a, $b)"
   * do "min($a, $b)"
 end
@@ -279,6 +284,7 @@ macro int native_macro_min3(int a, int b, int c)
   ruby do "[$a, $b, $c].min"
   pl do "min($a, $b, $c)"
   lua do "math.min($a, $b, $c)"
+  cc do "std::min({$a, $b, $c})"
   cpp do "std::min({$a, $b, $c})"
   * do "min($a, $b, $c)"
 end
@@ -292,6 +298,7 @@ macro int native_macro_min4(int a, int b, int c, int d)
   ruby do "[$a, $b, $c, $d].min"
   pl do "min($a, $b, $c, $d)"
   lua do "math.min($a, $b, $c, $d)"
+  cc do "std::min({$a, $b, $c, $d})"
   cpp do "std::min({$a, $b, $c, $d})"
   * do "min($a, $b, $c, $d)"
 end
@@ -424,6 +431,7 @@ macro array<char> native_expand_read_char_line(int c)
   csharp do "Console.ReadLine().ToCharArray()"
   fsharp do "(Console.ReadLine ()).ToCharArray ()"
   vb do "Console.ReadLine().ToCharArray()"
+  cc do "getline()"
   cpp do "getline()"
   rkt do "list->vector (string->list (read-line))"
   ruby do "STDIN.readline.split(//)"
@@ -439,11 +447,13 @@ end
 macro array<array<int>> py_expand_read_int_matrix(int x, int y)
   py do "[list(map(int, input().split())) for i in range($y)]"
   ruby do "[*1..$y].map { |l| STDIN.readline.split(\" \").map{ |x| x.to_i(10) } }"
+  cc do "read_matrix<int>($y, $x)"
   cpp do "read_matrix<int>($y, $x)"
   *  do "E R R O R"
 end
 
 macro array<array<char>> py_expand_read_char_matrix(int x, int y)
+  cc do "read_matrix<char>($y, $x)"
   cpp do "read_matrix<char>($y, $x)"
   *  do "E R R O R"
 end
