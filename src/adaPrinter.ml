@@ -187,7 +187,7 @@ let print_instr typerEnv macros declared_types declared_types_assoc i =
     | AllocArray (binding, type_, len, None, u) ->
       begin match TypeMap.find_opt (Type.array type_) declared_types with
         | Some s -> begin match StringMap.find s declared_types_assoc with
-            | Some s -> fprintf f "@[<hov>%a := new %s (0..%a-1);@]" print_varname binding s len nop
+            | Some s -> fprintf f "@[<hov>%a := new %s (0..%a);@]" print_varname binding s len nop
             | None -> assert false
           end
         | None -> fprintf f "(no-type)"

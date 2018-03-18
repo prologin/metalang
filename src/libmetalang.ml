@@ -169,6 +169,7 @@ let clike_passes
     ~arrayconst
     ~arrayindex1
     ~opselfaffect
+    ?(arraysubone=false)
     ?(clikeloop=false)
     ?(decrlooplimit=0)
     prog =
@@ -186,6 +187,7 @@ let clike_passes
     if mergeif then Passes.WalkIfMerge.apply () p |> Typer.process
     else ty, p
   in let p = if array then Passes.WalkAllocArrayExpend.apply arrayconst p else p in
+  let p = if arraysubone then Passes.WalkAllocArraySubOne.apply () p else p in
   let p = if arrayindex1 then Passes.WalkArrayReIndex.apply () p else p in
   let p = Passes.WalkInlineVars.apply () p in
   let ty, p = Typer.process p in
@@ -252,29 +254,29 @@ let languages, printers =
   in
   let ls = [
     "metalang",(t, justtype) => justprog Printer.prog ;
-    "c",       (t, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect               ~clikeloop:t ~decrlooplimit:0) => typedp CPrinter.prog ;
-    "fs",      (t, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect:nselfaffect   ~clikeloop:f ~decrlooplimit:0) => typedrecp ForthPrinter.prog ;
-    "m",       (t, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect               ~clikeloop:t ~decrlooplimit:0) => typedp ObjCPrinter.prog ;
-    "pas",     (t, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect:nselfaffect   ~clikeloop:f ~decrlooplimit:0) => justprog PasPrinter.prog ;
-    "adb",     (t, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect:nselfaffect   ~clikeloop:f ~decrlooplimit:0) => typedp AdaPrinter.prog;
-    "cc",      (t, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:t ~arrayindex1:f ~opselfaffect               ~clikeloop:t ~decrlooplimit:0) => typedp CppPrinter.cppPrinter ;
-    "cpp",     (t, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:t ~arrayindex1:f ~opselfaffect               ~clikeloop:t ~decrlooplimit:0) => typedp CppPrinter.proloCppPrinter ;
-    "cs",      (t, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect               ~clikeloop:t ~decrlooplimit:0) => typedp CsharpPrinter.prog;
-    "vb",      (f, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect:nselfaffect   ~clikeloop:f ~decrlooplimit:0) => typedp VbDotNetPrinter.prog ;
-    "java",    (t, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect               ~clikeloop:t ~decrlooplimit:0) => typedp JavaPrinter.prog ;
-    "groovy",  (t, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect               ~clikeloop:t ~decrlooplimit:0) => typedp GroovyPrinter.prog ;
-    "js",      (t, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect:opselfaffecti ~clikeloop:t ~decrlooplimit:0) => justprog JsPrinter.prog ;
-    "st",      (f, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:t ~opselfaffect:nselfaffect   ~clikeloop:f ~decrlooplimit:0) => justprog SmalltalkPrinter.prog ;
-    "go",      (f, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect               ~clikeloop:t ~decrlooplimit:0) => typedp GoPrinter.prog ;
-    "cl",      (t, clike_passes ~tuple:t ~record:t ~array:f ~mergeif:t ~arrayconst:f ~arrayindex1:f ~opselfaffect:nselfaffect   ~clikeloop:f ~decrlooplimit:0) => typedp CommonLispPrinter.prog ;
-    "php",     (t, clike_passes ~tuple:f ~record:t ~array:t ~mergeif:f ~arrayconst:t ~arrayindex1:f ~opselfaffect:opselfaffecti ~clikeloop:t ~decrlooplimit:0) => justprog PhpPrinter.prog ;
-    "scala",   (f, clike_passes ~tuple:f ~record:f ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect:nselfaffect   ~clikeloop:f ~decrlooplimit:0) => typedp ScalaPrinter.prog ;
-    "lua",     (t, clike_passes ~tuple:f ~record:f ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:t ~opselfaffect:nselfaffect   ~clikeloop:f ~decrlooplimit:0) => justprog LuaPrinter.prog ;
-    "py",      (f, clike_passes ~tuple:f ~record:f ~array:t ~mergeif:f ~arrayconst:t ~arrayindex1:f ~opselfaffect:noincr        ~clikeloop:f ~decrlooplimit:(-1)) => typedp PyPrinter.prog ;
-    "pl",      (t, clike_passes ~tuple:f ~record:f ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect:nselfaffect   ~clikeloop:f ~decrlooplimit:0) => justprog PerlPrinter.prog ;
-    "ml",      (t, clike_passes ~tuple:f ~record:f ~array:f ~mergeif:t ~arrayconst:f ~arrayindex1:f ~opselfaffect:nselfaffect   ~clikeloop:f ~decrlooplimit:0) => recp OcamlPrinter.prog ;
-    "fsscript",(t, clike_passes ~tuple:f ~record:f ~array:f ~mergeif:t ~arrayconst:f ~arrayindex1:f ~opselfaffect:nselfaffect   ~clikeloop:f ~decrlooplimit:0) => recp FSharpPrinter.prog ;
-    "rb",      (f, clike_passes ~tuple:f ~record:f ~array:f ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect:noincr        ~clikeloop:f ~decrlooplimit:0) => justprog RbPrinter.prog ;
+    "c",       (t, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect               ~arraysubone:f ~clikeloop:t ~decrlooplimit:0) => typedp CPrinter.prog ;
+    "fs",      (t, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect:nselfaffect   ~arraysubone:f ~clikeloop:f ~decrlooplimit:0) => typedrecp ForthPrinter.prog ;
+    "m",       (t, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect               ~arraysubone:f ~clikeloop:t ~decrlooplimit:0) => typedp ObjCPrinter.prog ;
+    "pas",     (t, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect:nselfaffect   ~arraysubone:f ~clikeloop:f ~decrlooplimit:0) => justprog PasPrinter.prog ;
+    "adb",     (t, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect:nselfaffect   ~arraysubone:t ~clikeloop:f ~decrlooplimit:0) => typedp AdaPrinter.prog;
+    "cc",      (t, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:t ~arrayindex1:f ~opselfaffect               ~arraysubone:f ~clikeloop:t ~decrlooplimit:0) => typedp CppPrinter.cppPrinter ;
+    "cpp",     (t, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:t ~arrayindex1:f ~opselfaffect               ~arraysubone:f ~clikeloop:t ~decrlooplimit:0) => typedp CppPrinter.proloCppPrinter ;
+    "cs",      (t, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect               ~arraysubone:f ~clikeloop:t ~decrlooplimit:0) => typedp CsharpPrinter.prog;
+    "vb",      (f, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect:nselfaffect   ~arraysubone:t ~clikeloop:f ~decrlooplimit:0) => typedp VbDotNetPrinter.prog ;
+    "java",    (t, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect               ~arraysubone:f ~clikeloop:t ~decrlooplimit:0) => typedp JavaPrinter.prog ;
+    "groovy",  (t, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect               ~arraysubone:f ~clikeloop:t ~decrlooplimit:0) => typedp GroovyPrinter.prog ;
+    "js",      (t, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect:opselfaffecti ~arraysubone:f ~clikeloop:t ~decrlooplimit:0) => justprog JsPrinter.prog ;
+    "st",      (f, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:t ~opselfaffect:nselfaffect   ~arraysubone:f ~clikeloop:f ~decrlooplimit:0) => justprog SmalltalkPrinter.prog ;
+    "go",      (f, clike_passes ~tuple:t ~record:t ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect               ~arraysubone:f ~clikeloop:t ~decrlooplimit:0) => typedp GoPrinter.prog ;
+    "cl",      (t, clike_passes ~tuple:t ~record:t ~array:f ~mergeif:t ~arrayconst:f ~arrayindex1:f ~opselfaffect:nselfaffect   ~arraysubone:f ~clikeloop:f ~decrlooplimit:0) => typedp CommonLispPrinter.prog ;
+    "php",     (t, clike_passes ~tuple:f ~record:t ~array:t ~mergeif:f ~arrayconst:t ~arrayindex1:f ~opselfaffect:opselfaffecti ~arraysubone:f ~clikeloop:t ~decrlooplimit:0) => justprog PhpPrinter.prog ;
+    "scala",   (f, clike_passes ~tuple:f ~record:f ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect:nselfaffect   ~arraysubone:f ~clikeloop:f ~decrlooplimit:0) => typedp ScalaPrinter.prog ;
+    "lua",     (t, clike_passes ~tuple:f ~record:f ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:t ~opselfaffect:nselfaffect   ~arraysubone:f ~clikeloop:f ~decrlooplimit:0) => justprog LuaPrinter.prog ;
+    "py",      (f, clike_passes ~tuple:f ~record:f ~array:t ~mergeif:f ~arrayconst:t ~arrayindex1:f ~opselfaffect:noincr        ~arraysubone:f ~clikeloop:f ~decrlooplimit:(-1)) => typedp PyPrinter.prog ;
+    "pl",      (t, clike_passes ~tuple:f ~record:f ~array:t ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect:nselfaffect   ~arraysubone:f ~clikeloop:f ~decrlooplimit:0) => justprog PerlPrinter.prog ;
+    "ml",      (t, clike_passes ~tuple:f ~record:f ~array:f ~mergeif:t ~arrayconst:f ~arrayindex1:f ~opselfaffect:nselfaffect   ~arraysubone:f ~clikeloop:f ~decrlooplimit:0) => recp OcamlPrinter.prog ;
+    "fsscript",(t, clike_passes ~tuple:f ~record:f ~array:f ~mergeif:t ~arrayconst:f ~arrayindex1:f ~opselfaffect:nselfaffect   ~arraysubone:f ~clikeloop:f ~decrlooplimit:0) => recp FSharpPrinter.prog ;
+    "rb",      (f, clike_passes ~tuple:f ~record:f ~array:f ~mergeif:f ~arrayconst:f ~arrayindex1:f ~opselfaffect:noincr        ~arraysubone:f ~clikeloop:f ~decrlooplimit:0) => justprog RbPrinter.prog ;
     "fun.ml",  (t, fun_passes ~rename:f ~fun_inline:f ~detect_effects:f ~curry:t  ~macrotize:t) => justprog OcamlFunPrinter.prog;
     "rkt",     (t, fun_passes ~rename:f ~fun_inline:f ~detect_effects:f ~curry:f ~macrotize:t ) => typedp RacketPrinter.prog;
     "hs",      (f, fun_passes ~rename:t  ~fun_inline:t  ~detect_effects:t  ~curry:t  ~macrotize:t) => typedp HaskellPrinter.prog
