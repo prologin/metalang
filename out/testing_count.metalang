@@ -1,0 +1,13 @@
+def int count (array<int> cnt)
+  tag "use_count"
+  return count_(cnt)
+end
+
+main
+  def array<int> tab[40] with i do
+                                  return i * i
+  end
+  print int count(tab)
+  print string "\n"
+end
+

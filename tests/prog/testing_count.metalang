@@ -1,0 +1,5 @@
+
+main
+  def array<int> tab[40] with i do return i * i end
+    print count(tab) print "\n"
+end

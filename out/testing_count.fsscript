@@ -1,0 +1,6 @@
+
+let () =
+  let tab = Array.init 40 (fun i ->
+    i * i)
+  Printf.printf "%d\n" ((tab).Length)
+ 
