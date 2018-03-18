@@ -94,15 +94,16 @@ let def_fields c name f li =
     f
     li
     
-let print_instr0 ptype c i f pend =
+let print_instr0 calloc ptype c i f pend =
   let open Ast.Instr in
   let open Format in
   match i with
   | Comment s -> fprintf f "/*%s*/" s
   | Declare (var, ty, e, _) -> fprintf f "%a %a = %a%a" ptype ty c.print_varname var e nop pend ()
-  | AllocArray (name, ty, e, None, opt) -> fprintf f "%a *%a = calloc(%a, sizeof(%a))%a"
+  | AllocArray (name, ty, e, None, opt) -> fprintf f "%a *%a = %s(%a, sizeof(%a))%a"
                                              ptype ty
                                              c.print_varname name
+                                             calloc
                                              e nop
                                              ptype ty
                                              pend ()
@@ -137,7 +138,7 @@ let print_instr0 ptype c i f pend =
   | Untuple _ | Unquote _ -> assert false
   | _ -> clike_print_instr c i f pend
 
-let mkprint_instr print_instr0 ptype (c:Helper.config) i =
+let mkprint_instr calloc print_instr0 ptype (c:Helper.config) i =
   let is_multi_instr = match i with
     | Ast.Instr.Declare _ -> true
     | _ -> false in
@@ -146,15 +147,15 @@ let mkprint_instr print_instr0 ptype (c:Helper.config) i =
     is_if=is_if i;
     is_if_noelse=is_if_noelse i;
     is_comment=is_comment i;
-    p=print_instr0 ptype c i;
+    p=print_instr0 calloc ptype c i;
     default = seppt;
     print_lief = c.print_lief;
   }
 
-let print_instr print_instr0 ptype macros i =
+let print_instr calloc print_instr0 ptype macros i =
   let open Ast.Instr.Fixed.Deep in
   let c = config macros in
-  let i = (fold (mkprint_instr print_instr0 ptype c) (mapg (print_expr c) i))
+  let i = (fold (mkprint_instr calloc print_instr0 ptype c) (mapg (print_expr c) i))
   in fun f -> i.p f i.default
 
 let declare_for s f li =
@@ -173,7 +174,7 @@ let print_proto typerEnv f (funname, t, li) =
          ) sep_c
       ) li
 
-let instructions macros typerEnv f li =
+let instructions calloc macros typerEnv f li =
     let rewrite i = match Instr.unfix i with
       | Instr.ClikeLoop (init, cond, incr, li) ->
         let init = List.map (fun i -> match Instr.unfix i with
@@ -189,15 +190,15 @@ let instructions macros typerEnv f li =
         ty, params,
         try List.assoc "c" li
         with Not_found -> List.assoc "" li) macros
-    in print_list (fun f t -> print_instr print_instr0 (ptype typerEnv) macros t f) sep_nl f li
+    in print_list (fun f t -> print_instr calloc print_instr0 (ptype typerEnv) macros t f) sep_nl f li
 
-let print_fun macros typerEnv f funname t li instrs =
+let print_fun calloc macros typerEnv f funname t li instrs =
     let li_fori, li_forc = clike_collect_for instrs false in
     Format.fprintf f "@\n@[<h>%a@] {@\n@[<v 4>    %a%a%a@]@\n}"
       (print_proto typerEnv) (funname, t, li)
       (declare_for "int") li_fori
       (declare_for "char") li_forc
-      (instructions macros typerEnv) instrs
+      (instructions calloc macros typerEnv) instrs
 
 let decl_type typerEnv f name t =
     match (Type.unfix t) with
@@ -221,24 +222,32 @@ let decl_type typerEnv f name t =
 
 
 let prog typerEnv f (prog: Utils.prog) =
+    let calloc = if Tags.is_taged "use_count" then "alloc" else "calloc" in
     let macros, items = List.fold_left
         (fun (macros, li) item -> match item with
            | Prog.Macro (name, t, params, code) ->
              StringMap.add name (t, params, code) macros, li
            | Prog.Comment str -> macros, (fun f -> Format.fprintf f "/* %s */@\n" str) :: li
-           | Prog.DeclarFun (funname, t, vars, liinstrs, _opt) -> macros, (fun f -> print_fun macros typerEnv f funname t vars liinstrs) :: li
+           | Prog.DeclarFun (funname, t, vars, liinstrs, _opt) -> macros, (fun f -> print_fun calloc macros typerEnv f funname t vars liinstrs) :: li
            | Prog.DeclareType (name, t) -> macros, (fun f -> decl_type typerEnv f name t) :: li
          | _ -> macros, li
         ) (StringMap.empty, []) prog.Prog.funs in
     Format.fprintf f "#include <stdio.h>@\n#include <stdlib.h>@\n%a@\n%a@\n%a@\n@\n"
       (fun f () ->
          if Tags.is_taged "use_math"
-         then Format.fprintf f "#include <math.h>@\n") ()
+         then Format.fprintf f "#include <math.h>@\n";
+         if Tags.is_taged "use_count"
+         then Format.fprintf f "int count(void* a){ return ((int*)a)[-1]; }@\n
+void* alloc(int a, int size){
+  void *out_ = malloc( a * size + sizeof(int));
+  ((int*)out_)[0]=a;
+  return ((int*)out_)+1;
+}@\n") ()
     (print_list (fun f g -> g f) sep_nl) (List.rev items)
       (print_option (fun f main ->
            let li_fori, li_forc = clike_collect_for main false in
            Format.fprintf f "@[<v 4>int main(void) {@\n%a%a%a@\nreturn 0;@]@\n}"
              (declare_for "int") li_fori
              (declare_for "char") li_forc
-             (instructions macros typerEnv) main
+             (instructions calloc macros typerEnv) main
          )) prog.Prog.main

@@ -140,7 +140,7 @@ let print_instr tyenv c i =
         | Type.Array ty -> g (fun ff () -> Format.fprintf ff "%a()" f ()) ty
         | _ -> f, t
       in let parent, t = g (fun f () -> ()) t in
-      fprintf f "@[<hov>Dim %a(%a)%a As %a"
+      fprintf f "@[<hov>Dim %a(%a-1)%a As %a"
         c.print_varname name
         e nop
         parent ()

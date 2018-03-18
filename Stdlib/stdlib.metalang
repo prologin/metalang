@@ -1,4 +1,39 @@
 
+macro int count_(array<auto> tab)
+  ml do "(Array.length ($tab))"
+  java do "($tab).length"
+  js do "($tab).length"
+  groovy do "($tab).length"
+  csharp do "($tab).Length"
+  scala do "($tab).length"
+  ada do "$tab'Length"
+  pas do "Length($tab)"
+  vb do "($tab).Length"
+  csharp do "($tab).Length"
+  fsharp do "($tab).Length"
+  py do "len($tab)"
+  cpp do "($tab)->size()"
+  php do "count($tab)"
+  pl do "0+@$tab"
+  rkt do "vector-length $tab"
+  ruby do "$tab.count"
+  go do "len($tab)"
+  objc do "count($tab)"
+  c do "count($tab)"
+  clisp do "(length $tab)"
+  lua do "#$tab"
+  st do "$tab size"
+  hs_pure do "count ($tab)"
+  hs do "fmap count ($tab)"
+  fs do "$tab cnt"
+  * do "not implemented"
+end
+
+def inline int count(array<int> cnt)
+  tag use_count
+  return count_(cnt)
+end
+
 macro int random(int c)
   ml do "(Random.int ($c))"
   js do "(Math.floor(Math.random() * ($c)))"

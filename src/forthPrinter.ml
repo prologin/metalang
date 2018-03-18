@@ -168,10 +168,16 @@ let print_instr tyenv macros i =
     | Tag s -> assert false
     | Return e -> fprintf f "@[<hov>%a%a exit@]" (print_ntimes ndrop) "DROP " e ()
     | AllocArray (name, t, e, None, opt) ->
-      begin match Type.unfix t with
-        | Type.String -> fprintf f "@[<h>HERE %a cells 2 * allot { %a }@]" e () print_varname name
-        | _ -> fprintf f "@[<h>HERE %a cells allot { %a }@]" e () print_varname name
-      end
+      if Tags.is_taged "use_count" then
+        begin match Type.unfix t with
+          | Type.String -> fprintf f "@[<h>%a dup HERE SWAP 2 * 1 + cells allot dup -rot ! 1 + { %a }@]" e () print_varname name
+          | _ -> fprintf f "@[<h>%a dup HERE SWAP 1 + cells allot dup -rot ! 1 cells + { %a }@]" e () print_varname name
+        end
+      else
+        begin match Type.unfix t with
+          | Type.String -> fprintf f "@[<h>HERE %a cells 2 * allot { %a }@]" e () print_varname name
+          | _ -> fprintf f "@[<h>HERE %a cells allot { %a }@]" e () print_varname name
+        end
     | AllocArray (name, t, e, Some (var, lambda), opt) -> assert false
     | AllocArrayConst (name, ty, len, lief, opt) -> assert false
     | AllocRecord (name, ty, list, opt) -> fprintf f "%a %%allot { %a }@\n%a"
@@ -271,7 +277,11 @@ let prog recursives_definitions typerEnv f (prog: Utils.prog) =
     let need_readint = TypeSet.mem (Type.integer) prog.Prog.reads in
     let need_readchar = TypeSet.mem (Type.char) prog.Prog.reads in
     let need = need_stdinsep || need_readint || need_readchar in
-    Format.fprintf f "%a%a%a%a%a%a%a%a@\nmain@\nBYE@\n"
+    Format.fprintf f "%a%a%a%a%a%a%a%a%a@\nmain@\nBYE@\n"
+      (fun f () ->
+         if Tags.is_taged "use_count" then
+           Format.fprintf f ": cnt { a } a 1 cells - @@ ;@\n"
+      ) ()
       (fun f () ->
          if Tags.is_taged "__internal__div" then
            Format.fprintf f ": // { a b } a b / a 0 < b 0 < XOR IF 1 + THEN ;@\n") ()

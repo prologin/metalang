@@ -52,7 +52,7 @@ let ptype tyenv f t =
   | Enum _ | Struct _ | Auto | Lexems | Tuple _ -> assert false
   in Fixed.Deep.fold ptype t f false
     
-let print_instr0 ptype c i f pend =
+let print_instr0 alloc ptype c i f pend =
   let open Ast.Instr in
   let open Format in
   match i with
@@ -61,12 +61,13 @@ let print_instr0 ptype c i f pend =
                                            c.print_varname name
                                            (match Type.unfix ty with | Type.Named n -> n | _ -> assert false) pend ()
                                            (CPrinter.def_fields c name) list
-  | _ -> CPrinter.print_instr0 ptype c i f pend
+  | _ -> CPrinter.print_instr0 alloc ptype c i f pend
 
 let declare_for s f li =
   if li <> [] then Format.fprintf f "%s %a;@\n" s (print_list print_varname sep_c) li
         
 let prog typerEnv f (prog: Utils.prog) =
+    let alloc = if Tags.is_taged "use_count" then "alloc" else "calloc" in
     let instructions macros f li =
       let rewrite i = match Instr.unfix i with
         | Instr.ClikeLoop (init, cond, incr, li) ->
@@ -83,7 +84,7 @@ let prog typerEnv f (prog: Utils.prog) =
           ty, params,
           try List.assoc "objc" li
           with Not_found -> List.assoc "" li) macros
-      in print_list (fun f t -> CPrinter.print_instr print_instr0 (ptype typerEnv) macros t f) sep_nl f li in
+      in print_list (fun f t -> CPrinter.print_instr alloc print_instr0 (ptype typerEnv) macros t f) sep_nl f li in
     let macros, items = List.fold_left
         (fun (macros, li) item -> match item with
            | Prog.Macro (name, t, params, code) ->
@@ -124,12 +125,20 @@ let prog typerEnv f (prog: Utils.prog) =
     Format.fprintf f "#import <Foundation/Foundation.h>@\n#include<stdio.h>@\n#include<stdlib.h>@\n%a@\n%a@\n%a@\n@\n"
       (fun f () ->
          if Tags.is_taged "use_math"
-         then Format.fprintf f "#include<math.h>@\n"
+         then Format.fprintf f "#include<math.h>@\n";
+         if Tags.is_taged "use_count"
+         then Format.fprintf f "int count(void* a){ return ((int*)a)[-1]; }@\n
+void* alloc(int a, int size){
+  void *out_ = malloc( a * size + sizeof(int));
+  ((int*)out_)[0]=a;
+  return ((int*)out_)+1;
+}@\n"
       ) ()
       (print_list (fun f g -> g f) sep_nl) (List.rev items)
       (print_option (fun f main ->
            let li_fori, li_forc = clike_collect_for main false in
            Format.fprintf f "@[<v 2>int main(void){@\nNSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];@\n%a%a%a@\n[pool drain];@\nreturn 0;@]@\n}"
+
              (declare_for "int") li_fori
              (declare_for "char") li_forc
              (instructions macros) main)) prog.Prog.main

@@ -35,7 +35,11 @@ open Helper
 module E = AstFun.Expr
 module Type = Ast.Type
 
-
+let prelude_cnt =
+  "count t = do
+  (a,b) <- getBounds t
+  return (b - a + 1)
+"
 
 let prelude_and = "
 (<&&>) a b =
@@ -276,7 +280,7 @@ let header binand binor array_init array_make ifm read_array write_array f opts 
       "System.IO";
       "Data.IORef"
     ] in
-    Format.fprintf f "@[%a@]@\n%a%a%a%a%a%a%a%a@\nmain :: IO ()"
+    Format.fprintf f "@[%a@]@\n%a%a%a%a%a%a%a%a%a@\nmain :: IO ()"
       (print_list (fun f s -> Format.fprintf f "import %s" s) sep_nl) imports
       (fun f () -> if binand then Format.fprintf f "%s@\n" prelude_and) ()
       (fun f () -> if binor then Format.fprintf f "%s@\n" prelude_or) ()
@@ -285,6 +289,7 @@ let header binand binor array_init array_make ifm read_array write_array f opts 
       (fun f () -> if need_readint then Format.fprintf f "%s@\n" prelude_readint) ()
       (fun f () -> if write_array then Format.fprintf f "%s@\n" prelude_writeIOA) ()
       (fun f () -> if read_array then Format.fprintf f "%s@\n" prelude_readIOA) ()
+      (fun f () -> if Tags.is_taged "use_count"  then Format.fprintf f "%s@\n" prelude_cnt) ()
       (fun f () ->
          match array_init, array_make with
          | (true, true) -> Format.fprintf f "%s@\n%s@\n" array_init_withenv array_init1

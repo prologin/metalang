@@ -451,6 +451,8 @@ module EvalF (IO : EvalIO) = struct
            Char (char_of_int (get_integer param))
          | "sqrt_", [param] ->
            Integer (int_of_float (sqrt (float_of_int (get_integer param))))
+         | "count_", [param] ->
+           Integer (Array.length (get_array param))
          | _ -> failwith ("The Macro "^name^" cannot be evaluated with"
                           ^(string_of_int (List.length params))^" arguments")
       )
