@@ -313,16 +313,16 @@ out/%.test : out/%.fsscript.exe.out out/%.exeVB.out out/%.adb.bin.out out/%.rkt.
 	else \
 	echo "-------------------- $$i != $< "; \
 	echo "FAIL $^" > $@; \
-	echo "$(red)FAIL $^$(reset)"; \
+	echo -e "$(red)FAIL $^$(reset)"; \
 	return 1; \
 	fi; \
 	done; \
 	cp $< $@ ;\
-	echo "$(green)OK $(basename $*)$(reset)";
+	echo -e "$(green)OK $(basename $*)$(reset)";
 
 .PHONY: testCompare
 testCompare : $(addsuffix .test, $(TESTS))
-	@echo "$(green)ALL TESTS OK$(reset)"
+	@echo -e "$(green)ALL TESTS OK$(reset)"
 
 # test d'un langage et du caml
 
@@ -334,12 +334,12 @@ out/%.test_$1 : out/%.$1.out out/%.ml.out
 	else \
 	echo "-------------------- $$$$i != $$< "; \
 	echo "FAIL $$^" > $$@; \
-	echo "$(red)FAIL $$^$(reset)"; \
+	echo -e "$(red)FAIL $$^$(reset)"; \
 	return 1; \
 	fi; \
 	done; \
 	cp $$< $$@ ; \
-	echo "$(green)OK $$(basename $$*)$(reset)";
+	echo -e "$(green)OK $$(basename $$*)$(reset)";
 
 ifneq ($1, cpp.bin)
 test_$1 : $(addsuffix .test_$1, $(TESTS))
@@ -360,14 +360,14 @@ reprint : $(addsuffix .metalang, $(TESTS))
 	@rm out/$(notdir $(basename $@)).ml -f || exit 0
 	@./metalang tests/not_compile/$(notdir $(basename $@)).metalang -o out -lang ml || exit 0
 	@if [ -e out/$(notdir $(basename $@)).ml ]; then exit 1; fi
-	@echo "$(green)OK $(notdir $(basename $@))$(reset)"
+	@echo -e "$(green)OK $(notdir $(basename $@))$(reset)"
 	@touch $@
 
 TESTSNOTCOMPILE	:= $(addprefix out/, \
 	$(addsuffix .not_compile, $(TESTSNOTCOMPILEFILES)))
 .PHONY: testNotCompile
 testNotCompile : metalang out $(TESTSNOTCOMPILE)
-	@echo "$(green)NOT COMPILE TESTS OK$(reset)"
+	@echo -e "$(green)NOT COMPILE TESTS OK$(reset)"
 
 # règles diverses
 
