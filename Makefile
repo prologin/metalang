@@ -222,7 +222,7 @@ out/%.ml.native : out/%.ml
 	@rm out/$(basename $*).o || exit 0
 
 out/%.hs.exe : out/%.hs
-	@ghc -fcontext-stack=1000 -rtsopts out/$(basename $*).hs -o out/$(basename $*).hs.exe || exit 1
+	@ghc -freduction-depth=1000 -rtsopts out/$(basename $*).hs -o out/$(basename $*).hs.exe || exit 1
 	@rm out/$(basename $*).o
 	@rm out/$(basename $*).hi
 
