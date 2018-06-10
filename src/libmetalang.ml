@@ -86,7 +86,6 @@ let conf_rename lang prog =
 	      Rename.add name;
     ) !Fresh.bindings
   end;
-  Rename.add prog.Prog.progname ;
   List.iter Rename.add (keywords lang);
   List.iter Fresh.add (keywords lang)
 
