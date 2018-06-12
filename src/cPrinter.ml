@@ -206,7 +206,7 @@ let decl_type typerEnv f name t =
       let b = List.exists (fun (n, t) -> match Type.unfix t with
           | Type.Named n -> n = name
           | _ -> false) li in
-      Format.fprintf f "%atypedef struct %s {@\n@[<v 4>  %a@]@\n} %s;"
+      Format.fprintf f "%atypedef struct %s {@\n@[<v 4>    %a@]@\n} %s;"
         (fun f b ->
            if b then Format.fprintf f "struct %s;@\n" name
         ) b name
