@@ -43,13 +43,13 @@ let prelude_cnt =
 
 let prelude_and = "
 (<&&>) a b =
-	do c <- a
-	   if c then b
-		 else return False"
+     do c <- a
+        if c then b
+        else return False"
 let prelude_or = "(<||>) a b =
-	do c <- a
-	   if c then return True
-		 else b"
+    do c <- a
+       if c then return True
+       else b"
 let prelude_ifm = "ifM :: IO Bool -> IO a -> IO a -> IO a
 ifM c i e =
   do b <- c
