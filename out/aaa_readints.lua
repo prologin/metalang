@@ -1,8 +1,10 @@
 
 function readintline()
   local tab = {}
+  local index = 1
   for a in string.gmatch(io.read("*l"), "-?%d+") do
-    table.insert(tab, tonumber(a))
+    tab[index] = tonumber(a)
+    index = index + 1
   end
   return tab
 end

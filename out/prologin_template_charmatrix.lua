@@ -1,8 +1,10 @@
 
 function readcharline()
   local tab = {}
+  local index = 1
   for a in string.gmatch(io.read("*l"), ".") do
-    table.insert(tab, string.byte(a))
+    tab[index] = string.byte(a)
+    index = index + 1
   end
   return tab
 end
