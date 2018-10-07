@@ -21,7 +21,9 @@ Voici le programme helloworld.metalang ::
 Dépendances :
 ----------------
 
-L'idéal est d'installer OPAM et une version récente d'ocaml (actuellement, je tourne sur 4.02.3), ajoutez y menhir pour le parser et vous devriez pouvoir compiler metalang.
+- ocaml >= 4.04.0
+- menhir
+- ocamlbuild
 
 Quick start
 ----------------
