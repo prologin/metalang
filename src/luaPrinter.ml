@@ -209,7 +209,7 @@ function readcharline()
   local tab = {}
   local index = 1
   for a in string.gmatch(io.read(\"*l\"), \".\") do
-    tab[i] = string.byte(a)
+    tab[index] = string.byte(a)
     index = index + 1
   end
   return tab
