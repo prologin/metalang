@@ -196,8 +196,10 @@ let prog f prog =
           Format.fprintf f "
 function readintline()
   local tab = {}
+  local index = 1
   for a in string.gmatch(io.read(\"*l\"), \"-?%%d+\") do
-    table.insert(tab, tonumber(a))
+    tab[index] = tonumber(a)
+    index = index + 1
   end
   return tab
 end@\n") ()
@@ -205,8 +207,10 @@ end@\n") ()
           Format.fprintf f "
 function readcharline()
   local tab = {}
+  local index = 1
   for a in string.gmatch(io.read(\"*l\"), \".\") do
-    table.insert(tab, string.byte(a))
+    tab[i] = string.byte(a)
+    index = index + 1
   end
   return tab
 end@\n") ()
