@@ -329,7 +329,7 @@ let prog f prog =
     let need_readchar = TypeSet.mem (Type.char) prog.Prog.reads in
     let need = need_stdinsep || need_readint || need_readchar in
     Format.fprintf f "program %s;@\n%a%s%s%s%s%s@\n%a@\n%a.@\n@\n"
-      prog.Prog.progname
+      (String.concat "" ["prog"; prog.Prog.progname])
       (fun f () ->
          if Tags.is_taged "use_math" ||
             Tags.is_taged "use_pascal_math"

@@ -206,7 +206,7 @@ let prog typerEnv f (prog: Utils.prog) =
          if Tags.is_taged "use_readline"
          then Format.fprintf f "using System.Collections.Generic;@\n"
       ) ()
-      prog.Prog.progname
+      (String.concat "" [prog.Prog.progname; "Class"])
       (if need then "
 static bool eof;
 static String buffer;
