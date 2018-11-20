@@ -28,6 +28,8 @@ lua	?=	lua
 java	?=	java
 python	?=	python3
 
+PREFIX := /usr/local
+
 TESTSNOTCOMPILEFILES := $(basename $(filter %.metalang, \
 	$(shell ls tests/not_compile/)))
 
@@ -391,6 +393,11 @@ js/test.js : libmetalang.cma
 js/meta.js : js/test.js
 	#js_of_ocaml --runtime-only js/runtime.js
 	cat js/header.js js/test.js > js/meta.js
+
+install :
+	install -Dm644 LICENCE "$(PREFIX)/share/licenses/metalang/LICENSE"
+	install -Dm755 metalang "$(PREFIX)/bin/metalang"
+	install -Dm644 Stdlib/stdlib.metalang "$(PREFIX)/lib/metalang/stdlib.metalang"
 
 .PHONY: clean
 clean :

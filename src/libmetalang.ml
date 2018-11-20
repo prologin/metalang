@@ -292,9 +292,14 @@ let remove_unknown_languages =
   in List.filter go
 
 let stdlib_file =
-  try
-    Sys.getenv "METALANG_STDLIB"
-  with Not_found -> "Stdlib/stdlib.metalang"
+  let cur_dir = (Filename.dirname Sys.executable_name) in
+    try
+      List.find Sys.file_exists [
+        (try Sys.getenv "METALANG_STDLIB" with Not_found -> "");
+        cur_dir ^ "/Stdlib/stdlib.metalang";
+        cur_dir ^ "/../lib/stdlib.metalang"
+      ]
+    with Not_found -> failwith "Cannot find stdlib.metalang"
 
 (** {2 Command Line Arguments} *)
 
