@@ -294,7 +294,11 @@ let remove_unknown_languages =
 let stdlib_file =
   try
     Sys.getenv "METALANG_STDLIB"
-  with Not_found -> "Stdlib/stdlib.metalang"
+  with Not_found ->
+    if Sys.file_exists "/usr/lib/metalang/stdlib.metalang" then
+      "/usr/lib/metalang/stdlib.metalang"
+    else
+      "Stdlib/stdlib.metalang"
 
 (** {2 Command Line Arguments} *)
 
